@@ -2,14 +2,25 @@
 # ustack
 
 Records a user stack trace to the directed buffer.
+Alternatively, returns a `dt_stack_t` value that can be stored in a variable.
 
 ```
-stack ustack([uint32_t *nframes*, uint32_t *strsize*])
+dt_stack_t ustack([uint32_t *nframes*, uint32_t *strsize*])
 ```
 
-The `ustack` function records a user stack trace to the directed buffer. The user stack is, at most, *nframes* in depth. If *nframes* isn't specified, the number of stack frames recorded is the number specified by the `ustackframes` option. While `ustack` can determine the address of the calling frames when the probe fires, the stack frames aren't translated into symbols until the `ustack` function is processed at user level by the DTrace utility. If *strsize* is specified and is non zero, `ustack` allocates the specified amount of string space and then uses it to perform address-to-symbol translation directly from the kernel. Such direct user symbol translation is used only with stacktrace helpers that support this usage with DTrace. If such frames can't be translated, the frames appear only as hexadecimal addresses.
+The `ustack` function records a user stack trace to the directed buffer.
+The user stack is, at most, *nframes* in depth.
+If *nframes* isn't specified, the number of stack frames recorded is the number specified by the `ustackframes` option.
+While `ustack` can determine the address of the calling frames when the probe fires,
+the stack frames aren't translated into symbols until the `ustack` function is processed at user level by the DTrace utility.
+If *strsize* is specified and is non zero,
+`ustack` allocates the specified amount of string space and then uses it to perform address-to-symbol translation directly from the kernel.
+Such direct user symbol translation is used only with stacktrace helpers that support this usage with DTrace.
+If such frames can't be translated, the frames appear only as hexadecimal addresses.
 
-The `ustack` symbol translation occurs after the stack data is recorded. Therefore, the corresponding user process might exit before symbol translation can be performed, making stack frame translation impossible. If the user process exits before symbol translation is performed, `dtrace` outputs a warning message, followed by the hexadecimal stack frames.
+The `ustack` symbol translation occurs after the stack data is recorded.
+Therefore, the corresponding user process might exit before symbol translation can be performed, making stack frame translation impossible.
+If the user process exits before symbol translation is performed, `dtrace` outputs a warning message, followed by the hexadecimal stack frames.
 
 ## How to use ustack to trace a stack with no address-to-symbol translation
 
@@ -35,7 +46,13 @@ Mon 20 Feb 17:38:15 GMT 2023
               0x7f6d63fc2e65
 ```
 
+This example shows a D clause that stores the user stack to a global variable,
+then later print it with a `%k` conversion:
 
+```
+        v = ustack(3);
+        printf("%k", v);
+```
 
 **Parent topic:**[DTrace Function Reference](../reference/dtrace_functions.md)
 
