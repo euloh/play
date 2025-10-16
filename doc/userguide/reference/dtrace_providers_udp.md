@@ -7,6 +7,8 @@ The `udp` provider makes available a probe at UDP send operations in the system 
 
 ## udp Probes
 
+Go to [subsection 3, duplicate #5](#3-5).
+
 `udp` provides a probe for UDP sends and one for UDP receives.
 The module name is always `vmlinux` and the function name is empty.
 
@@ -150,7 +152,7 @@ The `udp` provider uses DTrace's stability mechanism to describe its stabilities
 
 ### 3
 
-## chill
+## chill {#dt_chill}
 
 ### 1
 
