@@ -9,6 +9,12 @@ The `udp` provider makes available a probe at UDP send operations in the system 
 
 Go to [subsection 3, duplicate #5](#3-5).
 
+Go to [chill](#chill).
+
+Go to [dt_chill](#dt_chill).
+
+Go to [chill-dt_chill](#chill-dt_chill).
+
 `udp` provides a probe for UDP sends and one for UDP receives.
 The module name is always `vmlinux` and the function name is empty.
 
