@@ -15,6 +15,8 @@ Go to [dt_chill](#dt_chill).
 
 Go to [chill-dt_chill](#chill-dt_chill).
 
+Go to [corral](#mycorral).
+
 `udp` provides a probe for UDP sends and one for UDP receives.
 The module name is always `vmlinux` and the function name is empty.
 
@@ -166,7 +168,7 @@ The `udp` provider uses DTrace's stability mechanism to describe its stabilities
 
 ### 3
 
-## corral
+## corral <a name="mycorral"></a>
 
 ### 1
 
