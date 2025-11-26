@@ -102,7 +102,8 @@ to help minimize the cost of any work associated with disabled probes.
 The `dtrace` command becomes part of the build procedure,
 which can be thought of in four parts:
 
-1.  Generate the header file that defines the macros to access the probes. For example:
+1.  Generate the header file that defines the macros to access the probes.
+For example:
 
     ```
     dtrace -h -s myproviders.d
@@ -112,7 +113,8 @@ which can be thought of in four parts:
     While `dtrace` requires root privileges for runtime tracing,
     generating the header file doesn't have this requirement.
 
-2.  Compile the source code, which includes the `dtrace` generated header file based on the provider and probe definitions. For example, for several source files:
+2.  Compile the source code, which includes the `dtrace` generated header file based on the provider and probe definitions.
+    For example, for several source files:
 
     ```
     gcc -I/usr/lib64/dtrace/include -c func1.c
@@ -120,11 +122,11 @@ which can be thought of in four parts:
     gcc -I/usr/lib64/dtrace/include -c func3.c
     ```
 
-    The include path is for the header `sys/usdt.h`,
+    (Note:  The include path is for the header `sys/usdt.h`,
     which will be referenced in `myproviders.h`,
     generated in the previous step.  The header file
     is also found in `uts/common` in the DTrace
-    source code.
+    source code.)
 
 3.  Post process each object file using `dtrace`. For example:
 
