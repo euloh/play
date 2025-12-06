@@ -1,0 +1,1002 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Introducing DTrace">
+      <meta name="DC.Publisher" content="January2025">
+      <meta name="category" content="operating-systems">
+      <meta name="suite" content="linux">
+      <meta name="productGroup" content="not-applicable">
+      <meta name="product" content="oracle-linux">
+      <meta name="release" content="cross-release">
+      <meta name="docbuilderDocument" content="mydocs-linux_oracle-linux_dtrace-tutorial">
+      <meta name="docbuilderId" content="22354">
+      <meta name="pubAlias" content="dtrace-tutorial">
+      <meta name="jarvis-url" content="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-tutorial/">
+      <meta name="notice" content="notice.txt">
+      <meta name="ditaval" content="dttutor.ditaval">
+      <meta name="revision" content="$Rev$">
+      <meta name="rev-date" content="$Date$">
+      <meta name="title" content="Oracle Linux: DTrace Tutorial">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="ol_intro_dtrace">
+      <meta name="DC.Language" content="en-us">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Introducing DTrace</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="DTrace Tutorial">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="DTrace Tutorial">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="OL-DTRACE-TUTORIAL.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2025-01-13T07:08:07-08:00">
+      
+      <meta name="dcterms.dateCopyrighted" content="2013, 2025">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E50705-16">
+      
+      <meta name="dcterms.product" content="en/operating-systems/oracle-linux">
+      
+      <link rel="prev" href="dtrace-tutorial-Preface.html" title="Previous" type="text/html">
+      <link rel="next" href="dtrace-tutorial-TracingOperatingSystemBehavior.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"linux","element_name":"Oracle Linux","display_in_url":false},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-linux","element_name":"Oracle Linux","display_in_url":true},"release":{"short_name":"cross-release","element_name":"Cross Release","display_in_url":false}}}</script>
+      
+    <meta name="dcterms.title" content="Oracle Linux: DTrace Tutorial">
+    <meta name="dcterms.isVersionOf" content="DTRACE-TUTORIAL">
+    <meta name="dcterms.release" content="Cross Release">
+  <script type="application/ld+json"> {"@context":"https://schema.org","@type":"WebPage","name":"Introducing DTrace","datePublished":"2019-08-16 CST","dateModified":"2025-01-13 CST"} </script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="dtrace-tutorial-Preface.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="dtrace-tutorial-TracingOperatingSystemBehavior.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article>
+         <header>
+            <ol class="breadcrumb" vocab="http://schema.org/" typeof="BreadcrumbList">
+               <li property="itemListElement" typeof="ListItem"><a href="index.html" property="item" typeof="WebPage"><span property="name">DTrace Tutorial</span></a></li>
+               <li class="active" property="itemListElement" typeof="ListItem">Introducing DTrace</li>
+            </ol>
+            <a id="ol_intro_dtrace" name="ol_intro_dtrace"></a>
+            
+            <h2 id="OLDTT-ol_intro_dtrace" class="sect2"><span class="enumeration_chapter">1 </span>Introducing DTrace
+            </h2>
+         </header>
+         <div class="ind">
+            <div>
+               <div>
+                  
+                  <div class="infoboxnotewarn">
+                     <p class="notep1">WARNING:</p>
+                     
+                     <p>Oracle Linux 7 is now in Extended Support. See <a href="https://www.oracle.com/a/ocom/docs/linux/oracle-linux-extended-support-ds.pdf" target="_blank">Oracle Linux Extended Support</a> and <a href="https://www.oracle.com/us/support/library/enterprise-linux-support-policies-069172.pdf" target="_blank">Oracle Open Source Support Policies</a> for more information.
+                     </p>
+                     
+                     <p>
+Migrate applications and data to Oracle Linux 8 or Oracle Linux 9 as soon as possible.
+</p>
+                     
+                     <p>For more information about DTrace, see <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-relnotes/" target="_blank"><span class="italic">Oracle Linux: DTrace Release Notes</span></a> and <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-v2-guide/" target="_blank">Oracle Linux: Using DTrace for System Tracing</a>.
+                     </p>
+                     
+                  </div>
+                  
+               </div>
+               <p>
+      This chapter introduces the dynamic tracing (DTrace) facility of
+      Oracle Linux. You can use DTrace to examine the behavior of the operating
+      system and of user-space programs that have been instrumented with
+      DTrace probes. The Unbreakable Enterprise Kernel (UEK) build is enabled to run DTrace.
+      UEK is the kernel that is compiled for use on Oracle Linux. You could
+      run a Linux kernel other than UEK on Oracle Linux, but DTrace would most
+      likely not be enabled and available, as UEK is the kernel that
+      is included with Oracle Linux.
+    </p>
+               <p>
+      Note that more recent versions of UEK often have better DTrace
+      functionality than earlier versions. The largest set of DTrace
+      features and improvements are available on the latest
+      DTrace-enabled kernels.
+    </p>
+               <p>
+      This tutorial assumes that you are using UEK on the x86_64
+      architecture. Note that UEK releases for any other architectures
+      might not include support for all of the providers that are
+      discussed in this tutorial.
+    </p>
+            </div>
+            <div class="sect2"><a id="ol_tutuse_dtrace" name="ol_tutuse_dtrace"></a><h3 id="OLDTT-ol_tutuse_dtrace" class="sect3">About This Tutorial</h3>
+               <div>
+                  <p>
+      This tutorial includes a variety of DTrace scripts and describes
+      different ways in which you can use DTrace. Several examples have
+      additional exercises that offer further practice in using DTrace.
+      Each exercise provides an estimate of the time that you should
+      allow to complete it. Depending on your level of programming
+      knowledge, you might need more or less time. You should already
+      have a good understanding of Linux administration and system
+      programming, and broad experience using a programming language,
+      such as C or C++, and a scripting language, such as Python. If you
+      are not familiar with terms such as <span class="italic">system
+      call</span>, <span class="italic">type</span>,
+      <span class="italic">cast</span>, <span class="italic">signal</span>,
+      <span class="italic">struct</span>, or <span class="italic">pointer</span>, you
+      might have difficulty in understanding some of the examples or
+      completing some of the exercises in this tutorial. However, each
+      exercise provides a sample solution in case you do get stuck. You
+      are encouraged to experiment with the examples to develop your
+      skills at creating DTrace scripts.
+    
+                  </p>
+                  <div class="infobox-caution">
+                     <p class="notep1">Caution:</p>
+                     
+                     <p>
+        To run the examples and perform the exercises in this tutorial,
+        you need to have <code class="codeph">root</code> access to a system.
+        Only the <code class="codeph">root</code> user or a user with
+        <kbd class="userinput">sudo</kbd> access to run commands as
+        <code class="codeph">root</code> can use the <kbd class="userinput">dtrace</kbd>
+        utility. As <code class="codeph">root</code>, you have total power over a
+        system and so have total responsibility for that system. Note
+        that although DTrace is designed so that you can use it safely
+        without needing to worry about corrupting the operating system
+        or other processes, there are ways to circumvent the built-in
+        safety measures.
+      
+                     </p>
+                     
+                     <p>
+        To minimize risk, perform the examples and exercises in this
+        tutorial on a system other than a production system.
+      </p>
+                     
+                  </div>
+                  <p>
+      The examples in this tutorial demonstrate the different ways that
+      you can perform dynamic tracing of your system: by entering a
+      simple D program as an argument to <kbd class="userinput">dtrace</kbd> on
+      the command line, by using the <kbd class="userinput">dtrace</kbd> command
+      to run a script that contains a D program, or by using an
+      executable D script that contains a <span class="italic">hashbang</span>
+      (<code class="codeph">#!</code> or <span class="italic">shebang</span>) invocation
+      of <kbd class="userinput">dtrace</kbd>. When you create your own D programs,
+      you can choose which method best suits your needs.
+    
+                  </p>
+               </div>
+            </div>
+            <div class="sect2"><a id="ol_about_dtrace" name="ol_about_dtrace"></a><h3 id="OLDTT-ol_about_dtrace" class="sect3">About DTrace</h3>
+               <div>
+                  <p>
+      DTrace is a comprehensive dynamic tracing facility that was first
+      developed for use on the Solaris operating system (now known as
+      Oracle Solaris) and subsequently ported to Oracle Linux. You can use
+      DTrace to explore the operation of your system to better
+      understand how it works, to track down performance problems across
+      many layers of software, or to locate the causes of aberrant
+      behavior.
+    </p>
+                  <p>
+      Using DTrace, you can record data at previously instrumented
+      places of interest, which are referred to as
+      <span class="italic">probes</span>, in kernel and user-space programs. A
+      probe is a location to which DTrace can bind a request to perform
+      a set of actions, such as recording a stack trace, a timestamp, or
+      the argument to a function. Probes function like programmable
+      sensors that record information. When a probe is triggered, DTrace
+      gathers data that you have designated in a D script and reports
+      this data back to you.
+    
+                  </p>
+                  <p>
+      Using DTrace's D programming language, you can query the system
+      probes to provide immediate and concise answers to any number of
+      questions that you might formulate.
+    </p>
+                  <p>
+      A D program describes the actions that occur if one or more
+      specified probes is triggered. A probe is uniquely specified by
+      the name of the DTrace provider that publishes the probe, the name
+      of the module, library, or user-space program in which the probe
+      is located, the name of the function in which the probe is
+      located, and the name of the probe itself, which usually describes
+      some operation or functionality that you can trace. Because you do
+      not need to specify probes exactly, this allows DTrace to perform
+      the same action for a number of different probes. Full and
+      explicit representation of a single probe in the D language takes
+      the form:
+    </p>
+                  <p><span class="variable" translate="no">PROVIDER</span>:<span class="variable" translate="no">MODULE</span>:<span class="variable" translate="no">FUNCTION</span>:<span class="variable" translate="no">NAME</span></p>
+                  <p>
+      When you use the <kbd class="userinput">dtrace</kbd> command to run a D
+      program, you invoke the compiler for the D language. When DTrace
+      has compiled your D program into a safe, intermediate form, it
+      sends it to the DTrace module in the operating system kernel for
+      execution. The DTrace module activates the probes that your
+      program specifies and executes the associated actions when your
+      probes fire. DTrace handles any runtime errors that might occur
+      during your D program's execution, including dividing by zero,
+      dereferencing invalid memory, and so on, and reports them to you.
+
+      
+               
+                  </p>
+                  <div class="infoboxnote">
+                     <p class="notep1">Note:</p>
+                     
+                     <p>
+                        <span class="bold">Modules Primer</span>
+                        
+                     </p>
+                     
+                     <p>
+        There are two kinds of modules that are frequently referenced in
+        most, if not all, detailed discussions of DTrace on Oracle Linux. To
+        avoid confusion, you must identify which kind of module is being
+        discussed with any mention of a <span class="italic">module</span>. The
+        context usually gives plenty of clues, if you have knowledge of
+        these kinds of modules.
+      
+                     </p>
+                     
+                     <p>
+        The module that is being discussed in the sequence
+        <span class="variable" translate="no">PROVIDER</span>:<span class="variable" translate="no">MODULE</span>:<span class="variable" translate="no">FUNCTION</span>:<span class="variable" translate="no">NAME
+        </span> refers to a module in the sense that it is a
+        distinct, orderly component that is used by DTrace to reference
+        and represent areas of code. You can specify that a DTrace
+        module reference point DTrace to some set of code or
+        functionality. Output from a <kbd class="userinput">dtrace</kbd> command
+        uses <span class="variable" translate="no">MODULE</span> to convey that some
+        activity has occurred in such an area of code in the kernel or
+        in a user-space program. This type of module can simply be
+        referred to as a <span class="italic">DTrace module</span>.
+      
+                     </p>
+                     
+                     <p>
+        A second and very different meaning for the term
+        <span class="italic">module</span> is a Linux kernel module. The Linux
+        kernel is divided into different functional components that are
+        called modules: these modules might be loaded and unloaded
+        separately from each other. The output of the
+        <kbd class="userinput">lsmod</kbd> command shows which Linux kernel
+        modules are loaded on the system. These modules are referred to
+        as <span class="italic">Linux kernel modules</span>, or within the
+        context of discussing only Linux, simply <span class="italic">kernel
+        modules</span>.
+      
+                     </p>
+                     
+                     <p>
+        The following are two additional variations of other module
+        references:
+      </p>
+                     
+                     <ul style="list-style-type: disc;">
+                        <li>
+                           
+                           <p>
+            Some Linux kernel modules that are specific to DTrace must
+            be present to use DTrace on a Linux system. These particular
+            kernel modules are specifically referenced as
+            <span class="italic">dtrace kernel modules</span>. See the table in
+            <a href="dtrace-tutorial-IntroducingDTrace.html#ol_diffs_dtrace">About DTrace Providers</a> for a list
+            of providers that are available from specific
+            <code class="codeph">dtrace</code> kernel modules.
+          
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+            DTrace probes must be compiled into any kernel module in
+            order for DTrace to monitor the activity in the kernel
+            module. However, kernel modules with DTrace probes are not
+            <code class="codeph">dtrace</code> kernel modules, rather, they are
+            referred to as <span class="italic">DTrace enabled kernel
+            modules</span>. All kernel modules that can be traced by
+            DTrace implicitly are DTrace enabled kernel modules and
+            therefore are not typically referred to explicitly as DTrace
+            enabled kernel modules, but with the shorthand,
+            <span class="italic">kernel modules</span>.
+          
+                           </p>
+                           
+                        </li>
+                     </ul>
+                     
+                  </div>
+                  <p>
+      Unless you explicitly permit DTrace to perform potentially
+      destructive actions, you cannot construct an unsafe program that
+      would cause DTrace to inadvertently damage either the operating
+      system or any process that is running on your system. These safety
+      features enable you to use DTrace in a production environment
+      without worrying about crashing or corrupting your system. If you
+      make a programming mistake, DTrace reports the error and
+      deactivates your program's probes. You can then correct your
+      program and try again.
+    </p>
+                  <p>
+      For more information about using DTrace, see the
+      <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/" target="_blank">Oracle Linux: DTrace Reference Guide</a>.
+    
+                  </p>
+               </div>
+            </div>
+            <div class="sect2"><a id="ol_diffs_dtrace" name="ol_diffs_dtrace"></a><h3 id="OLDTT-ol_diffs_dtrace" class="sect3">About DTrace Providers</h3>
+               <div>
+                  <div class="p">
+      The following table lists the providers that are included with the
+      Oracle Linux implementation of DTrace and the kernel modules that include
+      the providers.
+
+      
+                     <div class="tblformal">
+                        <table cellpadding="4" cellspacing="0" class="Formal" title summary="This table lists the providers that are included with&#xA;          the Oracle Linux implementation of DTrace and the kernel modules that&#xA;          include the providers." frame="hsides" border="1" rules="rows">
+                           <thead>
+                              <tr align="left" valign="top">
+                                 <th align="left" valign="bottom" id="d1036e365">
+                  Provider
+                </th>
+                                 <th align="left" valign="bottom" id="d1036e368">dtrace Kernel Module
+                </th>
+                                 <th align="left" valign="bottom" id="d1036e373">
+                  Description
+                </th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr align="left" valign="top">
+                                 <td align="left" valign="top" id="d1036e378" headers="d1036e365 ">
+                                    <p><code class="codeph">dtrace</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e378 d1036e368 ">
+                                    <p><code class="codeph">dtrace</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e378 d1036e373 ">
+                                    <p>
+                  Provides probes that relate to DTrace itself, such as
+                  <code class="codeph">BEGIN</code>, <code class="codeph">ERROR</code>,
+                  and <code class="codeph">END</code>. You can use these probes
+                  to initialize DTrace's state before tracing begins,
+                  process its state after tracing has completed, and
+                  handle unexpected execution errors in other probes.
+                
+                                    </p>
+                                 </td>
+                              </tr>
+                              <tr align="left" valign="top">
+                                 <td align="left" valign="top" id="d1036e399" headers="d1036e365 ">
+                                    <p><code class="codeph">fbt</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e399 d1036e368 ">
+                                    <p><code class="codeph">fbt</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e399 d1036e373 ">
+                                    <p>
+                  Supports function boundary tracing (FBT) probes, which
+                  are at the entry and exits of kernel functions.
+                </p>
+                                 </td>
+                              </tr>
+                              <tr align="left" valign="top">
+                                 <td align="left" valign="top" id="d1036e411" headers="d1036e365 ">
+                                    <p><code class="codeph">fasttrap</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e411 d1036e368 ">
+                                    <p><code class="codeph">fasttrap</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e411 d1036e373 ">
+                                    <p>
+                  Supports user-space tracing of DTrace-enabled
+                  applications.
+                </p>
+                                 </td>
+                              </tr>
+                              <tr align="left" valign="top">
+                                 <td align="left" valign="top" id="d1036e423" headers="d1036e365 ">
+                                    <p><code class="codeph">io</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e423 d1036e368 ">
+                                    <p><code class="codeph">sdt</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e423 d1036e373 ">
+                                    <p>
+                  Provides probes that relate to data input and output.
+                  The <code class="codeph">io</code> provider enables quick
+                  exploration of behavior observed through I/O
+                  monitoring.
+                
+                                    </p>
+                                 </td>
+                              </tr>
+                              <tr align="left" valign="top">
+                                 <td align="left" valign="top" id="d1036e438" headers="d1036e365 ">
+                                    <p><code class="codeph">IP</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e438 d1036e368 ">
+                                    <p><code class="codeph">sdt</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e438 d1036e373 ">
+                                    <p>
+                  Provides probes for the IP protocol (both IPv4 and
+                  IPv6).
+                </p>
+                                 </td>
+                              </tr>
+                              <tr align="left" valign="top">
+                                 <td align="left" valign="top" id="d1036e450" headers="d1036e365 ">
+                                    <p><code class="codeph">lockstat</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e450 d1036e368 ">
+                                    <p><code class="codeph">sdt</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e450 d1036e373 ">
+                                    <p>
+                  Provides probes for locking events including: mutexes,
+                  read-write locks, and spinlock.
+                </p>
+                                 </td>
+                              </tr>
+                              <tr align="left" valign="top">
+                                 <td align="left" valign="top" id="d1036e462" headers="d1036e365 ">
+                                    <p><code class="codeph">perf</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e462 d1036e368 ">
+                                    <p><code class="codeph">sdt</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e462 d1036e373 ">
+                                    <p>
+                  Provides probes that correspond to each
+                  <code class="codeph">perf</code> tracepoint, including typed
+                  arguments.
+                
+                                    </p>
+                                 </td>
+                              </tr>
+                              <tr align="left" valign="top">
+                                 <td align="left" valign="top" id="d1036e477" headers="d1036e365 ">
+                                    <p><code class="codeph">proc</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e477 d1036e368 ">
+                                    <p><code class="codeph">sdt</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e477 d1036e373 ">
+                                    <p>
+                  Provides probes for monitoring process creation and
+                  termination, LWP creation and termination, execution
+                  of new programs, and signal handling.
+                </p>
+                                 </td>
+                              </tr>
+                              <tr align="left" valign="top">
+                                 <td align="left" valign="top" id="d1036e489" headers="d1036e365 ">
+                                    <p><code class="codeph">profile</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e489 d1036e368 ">
+                                    <p><code class="codeph">profile</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e489 d1036e373 ">
+                                    <p>
+                  Provides probes that are associated with an
+                  asynchronous interrupt event that fires at a fixed and
+                  specified time interval, rather than with any
+                  particular point of execution. You can use these
+                  probes to sample some aspect of a system's state.
+                </p>
+                                 </td>
+                              </tr>
+                              <tr align="left" valign="top">
+                                 <td align="left" valign="top" id="d1036e501" headers="d1036e365 ">
+                                    <p><code class="codeph">sched</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e501 d1036e368 ">
+                                    <p><code class="codeph">sdt</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e501 d1036e373 ">
+                                    <p>
+                  Provides probes related to CPU scheduling. Because
+                  CPUs are the one resource that all threads must
+                  consume, the <code class="codeph">sched</code> provider is very
+                  useful for understanding systemic behavior.
+                
+                                    </p>
+                                 </td>
+                              </tr>
+                              <tr align="left" valign="top">
+                                 <td align="left" valign="top" id="d1036e516" headers="d1036e365 ">
+                                    <p><code class="codeph">syscall</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e516 d1036e368 ">
+                                    <p><code class="codeph">systrace</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e516 d1036e373 ">
+                                    <p>
+                  Provides probes at the entry to and return from every
+                  system call. Because system calls are the primary
+                  interface between user-level applications and the
+                  operating system kernel, these probes can offer you an
+                  insight into the interaction between applications and
+                  the system.
+                </p>
+                                 </td>
+                              </tr>
+                              <tr align="left" valign="top">
+                                 <td align="left" valign="top" id="d1036e529" headers="d1036e365 ">
+                                    <p><code class="codeph">TCP</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e529 d1036e368 ">
+                                    <p><code class="codeph">sdt</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e529 d1036e373 ">
+                                    <p>
+                  Provides probes in the code that implements the TCP
+                  protocol, for both IPv4 and IPv6.
+                </p>
+                                 </td>
+                              </tr>
+                              <tr align="left" valign="top">
+                                 <td align="left" valign="top" id="d1036e541" headers="d1036e365 ">
+                                    <p><code class="codeph">UDP</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e541 d1036e368 ">
+                                    <p><code class="codeph">sdt</code></p>
+                                 </td>
+                                 <td align="left" valign="top" headers="d1036e541 d1036e373 ">
+                                    <p>
+                  Provides probes in the code that implements the UDP
+                  protocol, for both IPv4 and IPv6.
+                </p>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                     <!-- class="inftblhruleinformal" -->
+                     
+                  </div>
+                  <p>
+      SDT is a multi-provider, in that it implements multiple providers
+      under the same provider.
+    </p>
+                  <p>
+      The <code class="codeph">fasttrap</code> provider is considered a
+      meta-provider, which means it is a provider framework. The
+      <code class="codeph">fasttrap</code> meta-provider is used to facilitate
+      the creation of providers that are instantiated for user-space
+      processes.
+    
+                  </p>
+                  <p>
+      See
+      <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/dtrace-ref-DTraceProviders.html" target="_blank">DTrace
+      Providers</a> in the <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/" target="_blank">Oracle Linux: DTrace Reference Guide</a> for
+      more information about providers and their probes.
+    
+                  </p>
+               </div>
+            </div>
+            <div class="sect2"><a id="ol_config_dtrace" name="ol_config_dtrace"></a><h3 id="OLDTT-ol_config_dtrace" class="sect3">Preparing to Install and Configure DTrace</h3>
+               <div>
+                  <div class="infoboxnote">
+                     <p class="notep1">Note:</p>
+                     
+                     <p>
+        The DTrace package (<code class="codeph">dtrace-utils</code>) is
+        available from ULN. To ensure best results, your system must be
+        registered with ULN and should be installed with or updated to
+        the latest Oracle Linux release.
+      
+                     </p>
+                     
+                  </div>
+                  <div class="p">
+      To install and configure DTrace, perform the following steps:
+
+      
+                     <ol>
+                        <li>
+                           <p>
+            If your system is not already running the latest UEK
+            version:
+          </p>
+                           <ol type="a">
+                              <li>
+                                 <div class="p">
+                Update your system to the latest UEK release:
+
+<pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">yum update</kbd></pre>
+                                    </div>
+                              </li>
+                              <li>
+                                 <p>
+                Reboot the system and select the latest UEK version
+                that is available in the boot menu. Typically, this is
+                the default kernel.
+              </p>
+                              </li>
+                           </ol>
+                        </li>
+                        <li>
+                           <p>
+            Install the DTrace utilities package:
+          </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">yum install dtrace-utils</kbd></pre></li>
+                     </ol>
+                     
+                  </div>
+               </div>
+               <div class="sect3"><a id="auto_load_modules" name="auto_load_modules"></a><h4 id="OLDTT-auto_load_modules" class="sect4">Using Automatically Loaded DTrace Modules</h4>
+                  <div>
+                     <div class="infoboxnote">
+                        <p class="notep1">Note:</p>
+                        
+                        <p>
+          The following is a quick-start method for using DTrace kernel
+          modules that are automatically loaded. If you plan to manually
+          load DTrace kernel modules, see
+          <a href="dtrace-tutorial-IntroducingDTrace.html#ol_load_mdules_dtrace">Manually Loading DTrace Modules</a> for
+          instructions.
+        
+                        </p>
+                        
+                     </div>
+                     <p>
+        DTrace automatically loads some <code class="codeph">dtrace</code> kernel
+        modules when the <kbd class="userinput">dtrace</kbd> command references
+        the probes that are associated with a <code class="codeph">dtrace</code>
+        kernel module. You can use this convenient method to load
+        <code class="codeph">dtrace</code> modules, rather than manually loading
+        them.
+      
+                     </p>
+                     <p>
+        To find out which modules are automatically loaded in this
+        manner, use the following command:
+      </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">cat /etc/dtrace-modules</kbd>
+sdt
+systrace
+profile
+fasttrap</pre><p>
+        Additional modules can be added to this list after it is
+        determined that they are fully tested.
+      </p>
+                     <p>
+        To determine whether a particular module has been loaded in the
+        Linux kernel, use the <code class="codeph">lsmod</code> command. For
+        example, you would run the following command to determine
+        whether the <code class="codeph">sdt</code> module is loaded:
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">lsmod | grep sdt</kbd></pre><p>
+        If the module is not loaded, the command most likely will result
+        in no output. If the module is loaded, the output is similar to
+        the following:
+      </p><pre class="oac_no_warn" dir="ltr">sdt                    20480   0
+dtrace                 151552  4 sdt,fasttrap,systrace,profile</pre></div>
+               </div>
+               <div class="sect3"><a id="ol_load_mdules_dtrace" name="ol_load_mdules_dtrace"></a><h4 id="OLDTT-ol_load_mdules_dtrace" class="sect4">Manually Loading DTrace Modules</h4>
+                  <div>
+                     <div class="infoboxnote">
+                        <p class="notep1">Note:</p>
+                        
+                        <p>
+          The following information describes how to manually load
+          DTrace kernel modules. If you plan to use DTrace kernel
+          modules that are automatically loaded, you can skip this
+          section of the tutorial. See
+          <a href="dtrace-tutorial-IntroducingDTrace.html#auto_load_modules">Using Automatically Loaded DTrace Modules</a>.
+        
+                        </p>
+                        
+                     </div>
+                     <p>
+        To use DTrace providers, their supported kernel modules must be
+        loaded each time the kernel is booted.
+      </p>
+                     <p>
+        If the <code class="codeph">dtrace</code> kernel module is not already
+        loaded, when the <kbd class="userinput">dtrace</kbd> command is run, the
+        <code class="codeph">dtrace</code> module and all of the modules that are
+        listed in <code class="codeph">/etc/dtrace-modules</code> are all loaded
+        automatically. However, if the <code class="codeph">dtrace</code> kernel
+        module is already loaded, the automatic kernel module loading
+        mechanism is not triggered.
+      
+                     </p>
+                     <p>
+        You can load modules manually by using the
+        <kbd class="userinput">modprobe</kbd> command. For example, to use the
+        <code class="codeph">fbt</code> kernel module if it is not in the default
+        list, you would run the following command:
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">modprobe fbt</kbd></pre><p>
+        The <kbd class="userinput">modprobe</kbd> action also loads the
+        <code class="codeph">dtrace</code> kernel module as a dependency so that
+        a subsequent <kbd class="userinput">dtrace</kbd> command does not drive
+        automatic loading of other <code class="codeph">dtrace</code> modules
+        until the <code class="codeph">dtrace</code> kernel module is no longer
+        loaded. The <code class="codeph">drace</code> kernel module will no
+        longer be loaded upon another boot of the system or after the
+        manual removal of the <code class="codeph">dtrace</code> kernel modules.
+      
+                     </p>
+                     <p>
+        The suggested practice is to use the <kbd class="userinput">dtrace
+        -l</kbd> command to trigger automatic module loading and
+        thereby also confirm basic <code class="codeph">dtrace</code>
+        functionality. Then, use the <kbd class="userinput">modprobe</kbd> command
+        to load additional modules that are not in the default list,
+        such as <code class="codeph">fbt</code>, as needed.
+      
+                     </p>
+                  </div>
+                  <div class="sect4"><a id="dtrace_displayprobe_ex" name="dtrace_displayprobe_ex"></a><h5 id="OLDTT-dtrace_displayprobe_ex" class="sect5">Example: Displaying Probes for a Provider</h5>
+                     <div>
+                        <p><a id="d1036e856" class="indexterm-anchor"></a>
+
+          The following example shows how you would display the probes
+          for a provider, such as <code class="codeph">proc</code>, by using the
+          <kbd class="userinput">dtrace</kbd> command.
+        
+                        </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -l -P proc</kbd>
+   ID   PROVIDER            MODULE                          FUNCTION NAME
+  855       proc           vmlinux                          _do_fork lwp-create
+  856       proc           vmlinux                          _do_fork create
+  883       proc           vmlinux                           do_exit lwp-exit
+  884       proc           vmlinux                           do_exit exit
+  931       proc           vmlinux                   do_sigtimedwait signal-clear
+  932       proc           vmlinux                     __send_signal signal-send
+  933       proc           vmlinux                     __send_signal signal-discard
+  941       proc           vmlinux                     send_sigqueue signal-send
+  944       proc           vmlinux                        get_signal signal-handle
+ 1044       proc           vmlinux                     schedule_tail start
+ 1045       proc           vmlinux                     schedule_tail lwp-start
+ 1866       proc           vmlinux                do_execveat_common exec-failure
+ 1868       proc           vmlinux                do_execveat_common exec
+ 1870       proc           vmlinux                do_execveat_common exec-success</pre><p>
+          The output shows the numeric identifier of the probe, the name
+          of the probe provider, the name of the probe module, the name
+          of the function that contains the probe, and the name of the
+          probe itself.
+        </p>
+                        <p>
+          The full name of a probe is
+          <code class="codeph"><span class="variable" translate="no">PROVIDER</span>:<span class="variable" translate="no">MODULE</span>:<span class="variable" translate="no">FUNCTION</span>:<span class="variable" translate="no">NAME</span></code>,
+          for example, <code class="codeph">proc:vmlinux:_do_fork:create</code>.
+          If no ambiguity exists with other probes for the same
+          provider, you can usually omit the
+          <code class="codeph"><span class="variable" translate="no">MODULE</span></code> and
+          <code class="codeph"><span class="variable" translate="no">FUNCTION</span></code>
+          elements when specifying a probe. For example, you can refer
+          to <code class="codeph">proc:vmlinux:_do_fork:create</code> as
+          <code class="codeph">proc::_do_fork:create</code> or
+          <code class="codeph">proc:::create</code>. If several probes match your
+          specified probe in a D program, the associated actions are
+          performed for each probe.
+        
+                        </p>
+                        <p>
+          These probes enable you to monitor how the system creates
+          processes, executes programs, and handles signals.
+        </p>
+                        <p>
+          If you checked previously and the <code class="codeph">sdt</code>
+          module was not loaded, check again to see if the
+          <kbd class="userinput">dtrace</kbd> command has loaded the module.
+        
+                        </p>
+                        <p>
+          If the following message is displayed after running the
+          <kbd class="userinput">dtrace -l -P proc</kbd> command (instead of
+          output similar to the output in the previous example), it is
+          an indication that the module has not loaded:
+        
+                        </p><pre class="oac_no_warn" dir="ltr">No probe matches description</pre><p>
+          If the <code class="codeph">sdt</code> module does not load
+          automatically on a system with DTrace properly installed, it
+          is because another DTrace module was manually loaded by using
+          the <kbd class="userinput">modprobe</kbd> command. Manually loading a
+          DTrace module in this way effectively prevents any other
+          modules from being automatically loaded by the
+          <kbd class="userinput">dtrace</kbd> command until the system is
+          rebooted. In this instance, one workaround is to use the
+          <kbd class="userinput">modprod</kbd> command to manually load the
+          <code class="codeph">sdt</code> module. When the module has
+          successfully loaded, you should see a probe listing similar to
+          the output in <a href="dtrace-tutorial-IntroducingDTrace.html#dtrace_displayprobe_ex">Example: Displaying Probes for a Provider</a> when
+          you re-issue the <kbd class="userinput">dtrace</kbd> command.
+        
+                        </p>
+                     </div>
+                  </div>
+                  <div class="sect4"><a id="dtrace_enableprobes_ex" name="dtrace_enableprobes_ex"></a><h5 id="OLDTT-dtrace_enableprobes_ex" class="sect5">Exercise: Enabling and Listing DTrace Probes</h5>
+                     <div>
+                        <p>
+          Try listing the probes of the <code class="codeph">syscall</code>
+          provider. Notice that both <code class="codeph">entry</code> and
+          <code class="codeph">return</code> probes are provided for each system
+          call.
+        
+                        </p>
+                        <p>
+          (Estimated completion time: 3 minutes)
+        </p>
+                     </div>
+                  </div>
+                  <div class="sect4"><a id="dtrace_enableprobes_sol" name="dtrace_enableprobes_sol"></a><h5 id="OLDTT-dtrace_enableprobes_sol" class="sect5">Solution to Exercise: Enabling and Listing DTrace Probes</h5>
+                     <div><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -l -P syscall</kbd>
+  ID   PROVIDER            MODULE                  FUNCTION NAME
+   4    syscall           vmlinux                      read entry
+   5    syscall           vmlinux                      read return
+   6    syscall           vmlinux                     write entry
+   7    syscall           vmlinux                     write return
+   8    syscall           vmlinux                      open entry
+   9    syscall           vmlinux                      open return
+  10    syscall           vmlinux                     close entry
+  11    syscall           vmlinux                     close return
+...
+ 646    syscall           vmlinux             pkey_mprotect entry
+ 647    syscall           vmlinux             pkey_mprotect return
+ 648    syscall           vmlinux                pkey_alloc entry
+ 649    syscall           vmlinux                pkey_alloc return
+ 650    syscall           vmlinux                 pkey_free entry
+ 651    syscall           vmlinux                 pkey_free return
+ 652    syscall           vmlinux                     statx entry
+ 653    syscall           vmlinux                     statx return
+ 654    syscall           vmlinux                    waitfd entry
+ 655    syscall           vmlinux                    waitfd return</pre><div class="infoboxnote">
+                           <p class="notep1">Note:</p>
+                           
+                           <p>
+            The probe IDs numbers might differ from those on your
+            system, depending on what other providers are loaded.
+          </p>
+                           
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="sect2"><a id="ol_basicexmp_dtrace" name="ol_basicexmp_dtrace"></a><h3 id="OLDTT-ol_basicexmp_dtrace" class="sect3">Running a Simple DTrace Program</h3>
+               <div>
+                  <p>
+      The following example shows how you would use a text editor to
+      create a new file called <code class="codeph">hello.d</code> and then type
+      a simple D program.
+    
+                  </p>
+               </div>
+               <div class="sect3"><a id="dtrace_dprogram-example" name="dtrace_dprogram-example"></a><h4 id="OLDTT-dtrace_dprogram-example" class="sect4">Example: Simple D Program That Uses the BEGIN Probe (hello.d)</h4>
+                  <div><pre class="oac_no_warn" dir="ltr">/* hello.d -- A simple D program that uses the BEGIN probe */
+
+BEGIN
+{
+  /* This is a C-style comment */
+  trace("hello, world");
+  exit(0);
+}</pre><p>
+        A D program consists of a series of clauses, where each clause
+        describes one or more probes to enable, and an optional set of
+        actions to perform when the probe fires. The actions are listed
+        as a series of statements enclosed in braces
+        <code class="codeph">{}</code> following the probe name. Each statement
+        ends with a semicolon (<code class="codeph">;</code>).
+      
+                     </p>
+                     <p>
+        In this example, the function <code class="codeph">trace</code> directs
+        DTrace to record the specified argument, the string ”hello,
+        world”, when the <code class="codeph">BEGIN</code> probe fires, and
+        then print it out. The function <code class="codeph">exit()</code> tells
+        DTrace to cease tracing and exit the <kbd class="userinput">dtrace</kbd>
+        command.
+      
+                     </p>
+                     <p>
+        The full name of the <code class="codeph">BEGIN</code> probe is
+        <code class="codeph">dtrace:::BEGIN</code>. <code class="codeph">dtrace</code>
+        provides three probes: <code class="codeph">dtrace:::BEGIN</code>,
+        <code class="codeph">dtrace:::END</code>, and
+        <code class="codeph">dtrace:::ERROR</code>. Because these probe names are
+        unique to the <code class="codeph">dtrace</code> provider, their names
+        can be shortened to <code class="codeph">BEGIN</code>,
+        <code class="codeph">END</code>, and <code class="codeph">ERROR</code>.
+      
+                     </p>
+                     <p>
+        When you have saved your program, you can run it by using the
+        <kbd class="userinput">dtrace</kbd> command with the <kbd class="userinput">-s</kbd>
+        option, which specifies the name of the file that contains the D
+        program:
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -s hello.d</kbd>
+dtrace: script 'hello.d' matched 1 probe
+CPU     ID                    FUNCTION:NAME
+  0      1                           :BEGIN   hello, world</pre><p>
+        DTrace interprets and runs the script. You will notice that in
+        addition to the string <code class="codeph">"hello,world"</code>, the
+        default behavior of DTrace is to display information about the
+        CPU on which the script was running when a probe fired, the ID
+        of the probe, the name of the function that contains the probe,
+        and the name of the probe itself. The function name is displayed
+        as blank for <code class="codeph">BEGIN</code>, as DTrace provides this
+        probe.
+      
+                     </p>
+                     <p>
+        You can suppress the probe information in a number of different
+        ways, for example, by specifying the <kbd class="userinput">-q</kbd>
+        option:
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -q -s hello.d</kbd>
+hello, world</pre></div>
+               </div>
+               <div class="sect3"><a id="dtrace_endprobe_exer" name="dtrace_endprobe_exer"></a><h4 id="OLDTT-dtrace_endprobe_exer" class="sect4">Exercise: Using the END Probe</h4>
+                  <div>
+                     <p>
+        Copy the <code class="codeph">hello.d</code> program to the file
+        <code class="codeph">goodbye.d</code>. Edit this file so that it traces
+        the string "goodbye, world" and uses the <code class="codeph">END</code>
+        probe instead of <code class="codeph">BEGIN</code>. When you run this new
+        script, you need to type <code class="codeph">Ctrl-C</code> to cause the
+        probe to fire and exit <kbd class="userinput">dtrace</kbd>.
+      
+                     </p>
+                     <p>
+        (Estimated completion time: 5 minutes)
+      </p>
+                  </div>
+               </div>
+               <div class="sect3"><a id="dtrace_simpled_sol" name="dtrace_simpled_sol"></a><h4 id="OLDTT-dtrace_simpled_sol" class="sect4">Solution to Exercise and Example: Using the END Probe</h4>
+                  <div>
+                     <p>
+                        <a id="d1036e1279" class="indexterm-anchor"></a>
+                        <a id="d1036e1282" class="indexterm-anchor"></a>
+                        
+                     </p>
+                     <p>
+        The following is an example of a simple D program that
+        demonstrates the use of the <code class="codeph">END</code> probe:
+      
+                     </p><pre class="oac_no_warn" dir="ltr">/* goodbye.d -- Simple D program that demonstrates the END probe */
+
+END
+{
+  trace("goodbye, world");
+}</pre><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -s goodbye.d</kbd>
+dtrace: script 'goodbye.d' matched 1 probe
+<kbd class="userinput">^C</kbd>
+CPU     ID                    FUNCTION:NAME
+  3      2                             :END   goodbye, world</pre><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -q -s ./goodbye.d</kbd>
+                     <kbd class="userinput">^C</kbd>
+goodbye, world</pre></div>
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>
