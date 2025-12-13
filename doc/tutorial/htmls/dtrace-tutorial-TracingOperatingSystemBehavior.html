@@ -1,0 +1,2235 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Tracing Operating System Behavior">
+      <meta name="DC.Publisher" content="January2025">
+      <meta name="category" content="operating-systems">
+      <meta name="suite" content="linux">
+      <meta name="productGroup" content="not-applicable">
+      <meta name="product" content="oracle-linux">
+      <meta name="release" content="cross-release">
+      <meta name="docbuilderDocument" content="mydocs-linux_oracle-linux_dtrace-tutorial">
+      <meta name="docbuilderId" content="22354">
+      <meta name="pubAlias" content="dtrace-tutorial">
+      <meta name="jarvis-url" content="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-tutorial/">
+      <meta name="notice" content="notice.txt">
+      <meta name="ditaval" content="dttutor.ditaval">
+      <meta name="revision" content="$Rev$">
+      <meta name="rev-date" content="$Date$">
+      <meta name="title" content="Oracle Linux: DTrace Tutorial">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="ol_opsyexmp_dtrace">
+      <meta name="DC.Language" content="en-us">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Tracing Operating System Behavior</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="DTrace Tutorial">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="DTrace Tutorial">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="OL-DTRACE-TUTORIAL.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2025-01-13T07:08:07-08:00">
+      
+      <meta name="dcterms.dateCopyrighted" content="2013, 2025">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E50705-16">
+      
+      <meta name="dcterms.product" content="en/operating-systems/oracle-linux">
+      
+      <link rel="prev" href="dtrace-tutorial-IntroducingDTrace.html" title="Previous" type="text/html">
+      <link rel="next" href="dtrace-tutorial-TracingUserSpaceApplications.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"linux","element_name":"Oracle Linux","display_in_url":false},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-linux","element_name":"Oracle Linux","display_in_url":true},"release":{"short_name":"cross-release","element_name":"Cross Release","display_in_url":false}}}</script>
+      
+    <meta name="dcterms.title" content="Oracle Linux: DTrace Tutorial">
+    <meta name="dcterms.isVersionOf" content="DTRACE-TUTORIAL">
+    <meta name="dcterms.release" content="Cross Release">
+  <script type="application/ld+json"> {"@context":"https://schema.org","@type":"WebPage","name":"Tracing Operating System Behavior","datePublished":"2019-08-16 CST","dateModified":"2025-01-13 CST"} </script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="dtrace-tutorial-IntroducingDTrace.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="dtrace-tutorial-TracingUserSpaceApplications.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article>
+         <header>
+            <ol class="breadcrumb" vocab="http://schema.org/" typeof="BreadcrumbList">
+               <li property="itemListElement" typeof="ListItem"><a href="index.html" property="item" typeof="WebPage"><span property="name">DTrace Tutorial</span></a></li>
+               <li class="active" property="itemListElement" typeof="ListItem">Tracing Operating System Behavior</li>
+            </ol>
+            <a id="ol_opsyexmp_dtrace" name="ol_opsyexmp_dtrace"></a>
+            
+            <h2 id="OLDTT-ol_opsyexmp_dtrace" class="sect2"><span class="enumeration_chapter">2 </span>Tracing Operating System Behavior
+            </h2>
+         </header>
+         <div class="ind">
+            <div>
+               <div>
+                  
+                  <div class="infoboxnotewarn">
+                     <p class="notep1">WARNING:</p>
+                     
+                     <p>Oracle Linux 7 is now in Extended Support. See <a href="https://www.oracle.com/a/ocom/docs/linux/oracle-linux-extended-support-ds.pdf" target="_blank">Oracle Linux Extended Support</a> and <a href="https://www.oracle.com/us/support/library/enterprise-linux-support-policies-069172.pdf" target="_blank">Oracle Open Source Support Policies</a> for more information.
+                     </p>
+                     
+                     <p>
+Migrate applications and data to Oracle Linux 8 or Oracle Linux 9 as soon as possible.
+</p>
+                     
+                     <p>For more information about DTrace, see <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-relnotes/" target="_blank"><span class="italic">Oracle Linux: DTrace Release Notes</span></a> and <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-v2-guide/" target="_blank">Oracle Linux: Using DTrace for System Tracing</a>.
+                     </p>
+                     
+                  </div>
+                  
+               </div>
+               <p>
+      This chapter provides examples of D programs that you can use to
+      investigate what is happening in the operating system.
+    </p>
+            </div>
+            <div class="sect2"><a id="ol_systrace_dtrace" name="ol_systrace_dtrace"></a><h3 id="OLDTT-ol_systrace_dtrace" class="sect3">Tracing Process Creation</h3>
+               <div>
+                  <p>
+      The <code class="codeph">proc</code> probes enable you to trace process
+      creation and termination, execution of new program images, and
+      signal processing on a system. See
+      <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/dtrace-ref-DTraceProviders.html#dt_proc_prov" target="_blank">proc
+      Provider</a> in the <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/" target="_blank">Oracle Linux: DTrace Reference Guide</a> for a
+      description of the <code class="codeph">proc</code> probes and their
+      arguments.
+    
+                  </p>
+               </div>
+               <div class="sect3"><a id="ol_execcallsd_example" name="ol_execcallsd_example"></a><h4 id="OLDTT-ol_execcallsd_example" class="sect4">Example: Monitoring the System as Programs Are Executed (execcalls.d)
+
+        <span></span>
+                     
+                  </h4>
+                  <div>
+                     <p>
+        The following example shows the D program,
+        <code class="codeph">execcalls.d</code>, which uses
+        <code class="codeph">proc</code> probes to monitor the system as it
+        executes process images:
+      
+                     </p><pre class="oac_no_warn" dir="ltr">/* execcalls.d -- Monitor the system as it executes programs */
+
+proc::do_execveat_common:exec
+{
+  trace(stringof(args[0]));
+}</pre><p>
+        The <code class="codeph">args[0]</code> argument to the
+        <code class="codeph">exec</code> probe is set to the path name of the
+        program that is being executed. You use the
+        <code class="codeph">stringof()</code> function to convert the type from
+        <code class="codeph">char *</code> to the D type
+        <code class="codeph">string</code>.
+      
+                     </p>
+                     <div class="infoboxnote">
+                        <p class="notep1">Note:</p>
+                        
+                        <p>
+          The <code class="codeph">sdt</code> kernel module, which enables the
+          <code class="codeph">proc</code> provider probes, is most likely
+          already loaded on the test system. Or, if not already loaded,
+          the <code class="codeph">sdt</code> kernel module will automatically
+          load if you did not manually load a DTrace module since
+          booting the system. See
+          <a href="dtrace-tutorial-IntroducingDTrace.html#ol_load_mdules_dtrace">Manually Loading DTrace Modules</a> for
+          details. In the following example, the <code class="codeph">sdt</code>
+          kernel module needs to be manually loaded or it must be able
+          to automatically load for proper functionality.
+        
+                        </p>
+                        
+                     </div>
+                     <div class="p">
+        Type the <kbd class="userinput">dtrace -s execcalls.d</kbd> command to run
+        the D program in one window. Then start different programs from
+        another window, while observing the output from
+        <kbd class="userinput">dtrace</kbd> in the first window. To stop tracing
+        after a few seconds have elapsed, type <code class="codeph">Ctrl-C</code>
+        in the window that is running <kbd class="userinput">dtrace</kbd>.
+
+<pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -s execcalls.d</kbd>
+dtrace: script 'execcalls.d' matched 1 probe
+CPU     ID                    FUNCTION:NAME
+  1   1185          do_execveat_common:exec /usr/sbin/sshd
+  0   1185          do_execveat_common:exec /usr/sbin/unix_chkpwd
+  0   1185          do_execveat_common:exec /bin/bash
+  0   1185          do_execveat_common:exec /usr/bin/id
+  0   1185          do_execveat_common:exec /usr/bin/hostname
+  0   1185          do_execveat_common:exec /usr/bin/id
+  0   1185          do_execveat_common:exec /usr/bin/id
+  0   1185          do_execveat_common:exec /usr/bin/grep
+  0   1185          do_execveat_common:exec /usr/bin/tty
+  0   1185          do_execveat_common:exec /usr/bin/tput
+  0   1185          do_execveat_common:exec /usr/bin/grep
+  1   1185          do_execveat_common:exec /usr/sbin/unix_chkpwd
+  1   1185          do_execveat_common:exec /usr/libexec/grepconf.sh
+  1   1185          do_execveat_common:exec /usr/bin/dircolors
+  0   1185          do_execveat_common:exec /usr/bin/ls<kbd class="userinput">
+^C</kbd></pre>
+                        </div>
+                     <p>
+        The activity here shows a login to the same system (from another
+        terminal) while the script is running.
+      </p>
+                     <p>
+        The probe <code class="codeph">proc::do_execveat_common:exec</code> fires
+        whenever the system executes a new program and the associated
+        action uses <code class="codeph">trace()</code> to display the path name
+        of the program.
+      
+                     </p>
+                  </div>
+               </div>
+               <div class="sect3"><a id="ol_supoutput_exercise" name="ol_supoutput_exercise"></a><h4 id="OLDTT-ol_supoutput_exercise" class="sect4">Exercise: Suppressing Verbose Output From DTrace</h4>
+                  <div>
+                     <p><a id="d2922e255" class="indexterm-anchor"></a>
+
+        Run the <kbd class="userinput">execcalls.d</kbd> program again, but this
+        time add the <kbd class="userinput">-q</kbd> option to suppress all output
+        except output from <code class="codeph">trace()</code>. Notice how DTrace
+        displays only what you traced with <code class="codeph">trace()</code>.
+      
+                     </p>
+                     <p>
+        (Estimated completion time: less than 5 minutes)
+      </p>
+                  </div>
+               </div>
+               <div class="sect3"><a id="ol_supoutput_solution" name="ol_supoutput_solution"></a><h4 id="OLDTT-ol_supoutput_solution" class="sect4">Solution to Exercise: Suppressing Verbose Output From DTrace
+
+        <span></span>
+                     
+                  </h4>
+                  <div><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -q -s execcalls.d</kbd>
+/usr/bin/id/usr/bin/tput/usr/bin/dircolors/usr/bin/id/
+usr/lib64/qt-3.3/bin/gnome-terminal/usr/local/bin/gnome-terminal
+/usr/bin/gnome-terminal/bin/bash/usr/bin/id/bin/grep/bin/basename
+/usr/bin/tty/bin/ps</pre></div>
+               </div>
+            </div>
+            <div class="sect2"><a id="ol_trcsyscall_dtrace" name="ol_trcsyscall_dtrace"></a><h3 id="OLDTT-ol_trcsyscall_dtrace" class="sect3">Tracing System Calls</h3>
+               <div>
+                  <p>
+      System calls are the interface between user programs and the
+      kernel, which perform operations on the programs' behalf.
+    </p>
+                  <p>
+      The next example shows the next D program,
+      <code class="codeph">syscalls.d</code>, which uses
+      <code class="codeph">syscall</code> probes to record
+      <code class="codeph">open()</code> system call activity on a system.
+    
+                  </p>
+               </div>
+               <div class="sect3"><a id="ol_recopencalls_example" name="ol_recopencalls_example"></a><h4 id="OLDTT-ol_recopencalls_example" class="sect4">Example: Recording open() System Calls on a System (syscalls.d)
+
+        <span></span>
+                     
+                  </h4>
+                  <div><pre class="oac_no_warn" dir="ltr">/* syscalls.d -- Record open() system calls on a system */
+
+syscall::open:entry
+{
+  printf("%-16s %-16s\n",execname,copyinstr(arg0));
+}</pre><p>
+        In this example, the <code class="codeph">printf()</code> function is
+        used to display the name of the executable that is calling
+        <code class="codeph">open()</code> and the path name of the file that it
+        is attempting to open.
+      
+                     </p>
+                     <div class="infoboxnote">
+                        <p class="notep1">Note:</p>
+                        
+                        <p>
+          Use the <code class="codeph">copyinstr()</code> function to convert the
+          first argument (<code class="codeph">arg0</code>) in the
+          <code class="codeph">open()</code> call to a string. Whenever a probe
+          accesses a pointer to data in the address space of a user
+          process, you must use one of the <code class="codeph">copyin()</code>,
+          <code class="codeph">copyinstr()</code>, or
+          <code class="codeph">copyinto()</code> functions to copy the data from
+          user space to a DTrace buffer in kernel space. In this
+          example, it is appropriate to use
+          <code class="codeph">copyinstr()</code>, as the pointer refers to a
+          character array. If the string is not null-terminated, you
+          also need to specify the length of the string to
+          <code class="codeph">copyinstr()</code>, for example,
+          <code class="codeph">copyinstr(arg1, arg2)</code>, for a system call
+          such as <code class="codeph">write()</code>. See
+          <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/dtrace-ref-UserProcessTracing.html" target="_blank">User
+          Process Tracing</a> in the
+          <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/" target="_blank">Oracle Linux: DTrace Reference Guide</a>.
+        
+                        </p>
+                        
+                        <p>
+          The <code class="codeph">sdt</code> kernel module, which enables the
+          <code class="codeph">proc</code> provider probes, is most likely
+          already loaded on the test system. Or, if not already loaded,
+          the <code class="codeph">sdt</code> kernel module will automatically
+          load if you did not manually load a DTrace module since
+          booting the system. See
+          <a href="dtrace-tutorial-IntroducingDTrace.html#ol_load_mdules_dtrace">Manually Loading DTrace Modules</a> for
+          details.
+        
+                        </p>
+                        
+                     </div>
+                     <p>
+        In the following example, the <code class="codeph">sdt</code> kernel
+        module needs to be manually loaded or it must be able to
+        automatically load for proper functionality:
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -q -s syscalls.d</kbd>
+udisks-daemon    /dev/sr0               
+devkit-power-da  /sys/devices/LNXSYSTM:00/.../PNP0C0A:00/power_supply/BAT0/present
+devkit-power-da  /sys/devices/LNXSYSTM:00/.../PNP0C0A:00/power_supply/BAT0/energy_now
+devkit-power-da  /sys/devices/LNXSYSTM:00/.../PNP0C0A:00/power_supply/BAT0/voltage_max_design
+devkit-power-da  /sys/devices/LNXSYSTM:00/.../PNP0C0A:00/power_supply/BAT0/voltage_min_design
+devkit-power-da  /sys/devices/LNXSYSTM:00/.../PNP0C0A:00/power_supply/BAT0/status
+devkit-power-da  /sys/devices/LNXSYSTM:00/.../PNP0C0A:00/power_supply/BAT0/current_now
+devkit-power-da  /sys/devices/LNXSYSTM:00/.../PNP0C0A:00/power_supply/BAT0/voltage_now     
+VBoxService      /var/run/utmp         
+firefox          /home/guest/.mozilla/firefox/qeaojiol.default/sessionstore.js
+firefox          /home/guest/.mozilla/firefox/qeaojiol.default/sessionstore-1.js
+firefox          /home/guest/.mozilla/firefox/qeaojiol.default/sessionstore-1.js    
+<kbd class="userinput">^C</kbd></pre></div>
+               </div>
+               <div class="sect3"><a id="ol_useprintf_exercise" name="ol_useprintf_exercise"></a><h4 id="OLDTT-ol_useprintf_exercise" class="sect4">Exercise: Using the printf() Function to Format Output</h4>
+                  <div>
+                     <p><a id="d2922e507" class="indexterm-anchor"></a>
+
+        Amend the arguments to the <code class="codeph">printf()</code> function
+        so that <kbd class="userinput">dtrace</kbd> also prints the process ID and
+        user ID for the process. Use a conversion specifier such as
+        <code class="codeph">%-4d</code>.
+      
+                     </p>
+                     <p>
+        See
+        <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/dtrace-ref-OutputFormatting.html" target="_blank">Output
+        Formatting</a> in the <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/" target="_blank">Oracle Linux: DTrace Reference Guide</a> for
+        a description of the <code class="codeph">printf()</code> function.
+      
+                     </p>
+                     <p>
+        The process ID and user ID are available as the variables
+        <code class="codeph">pid</code> and <code class="codeph">uid</code>. Use the
+        <code class="codeph">BEGIN</code> probe to create a header for the
+        output.
+      
+                     </p>
+                     <p>
+        (Estimated completion time: 10 minutes)
+      </p>
+                  </div>
+               </div>
+               <div class="sect3"><a id="ol_syscallsdmod_example" name="ol_syscallsdmod_example"></a><h4 id="OLDTT-ol_syscallsdmod_example" class="sect4">Solution to Exercise: Using the printf() Function to Format Output</h4>
+                  <div><pre class="oac_no_warn" dir="ltr">/* syscalls1.d -- Modified version of syscalls.d that displays more information */
+
+BEGIN
+{
+  printf("%-6s %-4s %-16s %-16s\n","PID","UID","EXECNAME","FILENAME");
+}
+
+syscall::open:entry
+{
+  printf("%-6d %-4d %-16s %-16s\n",pid,uid, execname,copyinstr(arg0));
+}</pre><p><a id="d2922e580" class="indexterm-anchor"></a>
+
+        Note how this solution uses similar formatting strings to output
+        the header and the data.
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -q -s syscalls1.d</kbd>
+PID    UID  EXECNAME         FILENAME
+3220   0    udisks-daemon    /dev/sr0        
+2571   0    sendmail         /proc/loadavg   
+3220   0    udisks-daemon    /dev/sr0        
+2231   4    usb              /dev/usblp0     
+2231   4    usb              /dev/usb/lp0    
+2231   4    usb              /dev/usb/usblp0
+...
+<kbd class="userinput">^C</kbd></pre></div>
+               </div>
+            </div>
+            <div class="sect2"><a id="ol_tickexmp_dtrace" name="ol_tickexmp_dtrace"></a><h3 id="OLDTT-ol_tickexmp_dtrace" class="sect3">Performing an Action at Specified Intervals</h3>
+               <div>
+                  <p>
+      The <code class="codeph">profile</code> provider includes
+      <code class="codeph">tick</code> probes that you can use to sample some
+      aspect of a system's state at regular intervals. Note that the
+      <code class="codeph">profile</code> kernel module must be loaded to use
+      these probes.
+    
+                  </p>
+               </div>
+               <div class="sect3"><a id="ol_tickd_program" name="ol_tickd_program"></a><h4 id="OLDTT-ol_tickd_program" class="sect4">Example: Using <code class="codeph">tick.d</code>
+                     
+                  </h4>
+                  <div>
+                     <p>
+                        <a id="d2922e671" class="indexterm-anchor"></a>
+                        
+                     </p>
+                     <p>
+        The following is an example of the <code class="codeph">tick.d</code>
+        program.
+      
+                     </p><pre class="oac_no_warn" dir="ltr">/* tick.d -- Perform an action at regular intervals */
+
+BEGIN
+{
+  i = 0;
+}
+
+profile:::tick-1sec
+{
+  printf("i = %d\n",++i);
+}
+
+END
+{
+  trace(i);
+}</pre><p>
+        In this example, the program declares and initializes the
+        variable <code class="codeph">i</code> when the D program starts,
+        increments the variable and prints its value once every second,
+        and displays the final value of <code class="codeph">i</code> when the
+        program exits.
+      
+                     </p>
+                     <p>
+        When you run this program, it produces output that is similar to
+        the following, until you type <code class="codeph">Ctrl-C</code>:
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -s tick.d</kbd> 
+dtrace: script 'tick.d' matched 3 probes
+CPU     ID                    FUNCTION:NAME
+  1   5315                       :tick-1sec i = 1
+
+  1   5315                       :tick-1sec i = 2
+
+  1   5315                       :tick-1sec i = 3
+
+  1   5315                       :tick-1sec i = 4
+
+  1   5315                       :tick-1sec i = 5
+
+  1   5315                       :tick-1sec i = 6
+<kbd class="userinput">
+^C</kbd>
+  1   5315                       :tick-1sec i = 7
+
+  0      2                             :END         7 </pre><p>
+        To suppress all of the output except the output from
+        <code class="codeph">printf()</code> and <code class="codeph">trace()</code>,
+        specify the <kbd class="userinput">-q</kbd> option:
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -q -s tick.d</kbd> 
+i = 1
+i = 2
+i = 3
+i = 4
+<kbd class="userinput">^C</kbd>
+i = 5
+5</pre></div>
+               </div>
+               <div class="sect3"><a id="ol_usetickprobe_exercise" name="ol_usetickprobe_exercise"></a><h4 id="OLDTT-ol_usetickprobe_exercise" class="sect4">Exercise: Using tick Probes</h4>
+                  <div>
+                     <p><a id="d2922e756" class="indexterm-anchor"></a>
+
+        List the available <code class="codeph">profile</code> provider probes.
+        Experiment with using a different <code class="codeph">tick</code> probe.
+        Replace the <code class="codeph">trace()</code> call in
+        <code class="codeph">END</code> with a <code class="codeph">printf()</code> call.
+      
+                     </p>
+                     <p>
+        See
+        <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/dtrace-ref-DTraceProviders.html#dt_profile_prov" target="_blank">profile
+        Provider</a> in the <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/" target="_blank">Oracle Linux: DTrace Reference Guide</a> for a
+        description of the probes.
+      
+                     </p>
+                     <p>
+        (Estimated completion time: 10 minutes)
+      </p>
+                  </div>
+               </div>
+               <div class="sect3"><a id="ol_usetickprobe_solution" name="ol_usetickprobe_solution"></a><h4 id="OLDTT-ol_usetickprobe_solution" class="sect4">Solution to Exercise and Example: Using tick Probes
+
+        <span></span>
+                     
+                  </h4>
+                  <div><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -l -P profile</kbd>
+  ID   PROVIDER           MODULE               FUNCTION NAME
+   5    profile                                         profile-97
+   6    profile                                         profile-199
+   7    profile                                         profile-499
+   8    profile                                         profile-997
+   9    profile                                         profile-1999
+  10    profile                                         profile-4001
+  11    profile                                         profile-4999
+  12    profile                                         tick-1
+  13    profile                                         tick-10
+  14    profile                                         tick-100
+  15    profile                                         tick-500
+  16    profile                                         tick-1000
+  17    profile                                         tick-5000
+5315    profile                                         tick-1sec
+5316    profile                                         tick-10sec</pre></div>
+               </div>
+               <div class="sect3"><a id="ol-modifedtickd_example" name="ol-modifedtickd_example"></a><h4 id="OLDTT-ol-modifedtickd_example" class="sect4">Example: Modified Version of tick.d
+
+        <span></span>
+                     
+                  </h4>
+                  <div><pre class="oac_no_warn" dir="ltr">/* tick1.d -- Modified version of tick.d */
+
+BEGIN
+{
+  i = 0;
+}
+
+/* tick-500ms fires every 500 milliseconds */
+profile:::tick-500ms
+{
+  printf("i = %d\n",++i);
+}
+
+END
+{
+  printf("\nFinal value of i = %d\n",i);
+}</pre><p>
+        This example uses the <code class="codeph">tick-500ms</code> probe, which
+        fires twice per second.
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -s tick1.d</kbd>
+dtrace: script 'tick1.d' matched 3 probes
+CPU     ID                    FUNCTION:NAME
+  2    642                      :tick-500ms i = 1
+
+  2    642                      :tick-500ms i = 2
+
+  2    642                      :tick-500ms i = 3
+
+  2    642                      :tick-500ms i = 4
+
+<kbd class="userinput">^C</kbd>
+  2    642                      :tick-500ms i = 5
+
+  3      2                             :END
+Final value of i = 5</pre></div>
+               </div>
+            </div>
+            <div class="sect2"><a id="ol_predexmp_dtrace" name="ol_predexmp_dtrace"></a><h3 id="OLDTT-ol_predexmp_dtrace" class="sect3">Using Predicates to Select Actions</h3>
+               <div>
+                  <p>
+      Predicates are logic statements that choose whether DTrace invokes
+      the actions that are associated with a probe. You can use
+      predicates to focus tracing analysis on specific contexts under
+      which a probe fires.
+    </p>
+               </div>
+               <div class="sect3"><a id="ol_use_daterund" name="ol_use_daterund"></a><h4 id="OLDTT-ol_use_daterund" class="sect4">Example: Using daterun.d</h4>
+                  <div>
+                     <p>
+        The following example shows an executable DTrace script,
+        <code class="codeph">daterun.d</code>, which displays the file
+        descriptor, output string, and string length specified to the
+        <code class="codeph">write()</code> system call whenever the
+        <kbd class="userinput">date</kbd> command is run on the system.
+      
+                     </p><pre class="oac_no_warn" dir="ltr">#!/usr/sbin/dtrace -qs
+
+/* daterun.d -- Display arguments to write() when date runs */
+
+syscall::write:entry
+/execname == "date"/
+{
+  printf("%s(%d, %s, %d)\n", probefunc, arg0, copyinstr(arg1), arg2);
+} </pre><p>
+        In the example, the predicate is <code class="codeph">/execname ==
+        "date"/</code>, which specifies that if the probe
+        <code class="codeph">syscall::write:entry</code> is triggered, DTrace
+        runs the associated action only if the name of the executable is
+        <kbd class="userinput">date</kbd>.
+      
+                     </p>
+                     <p>
+        Make the script executable by changing its mode:
+      </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">chmod +x daterun.d</kbd></pre><p>
+        If you run the script from one window, while typing the
+        <kbd class="userinput">date</kbd> command in another window, output
+        similar to the following is displayed in the first window:
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">./daterun.d</kbd>
+write(1, Thu Oct 31 11:14:43 GMT 2013
+, 29)</pre></div>
+               </div>
+               <div class="sect3"><a id="ol_availsyscall_example" name="ol_availsyscall_example"></a><h4 id="OLDTT-ol_availsyscall_example" class="sect4">Example: Listing Available syscall Provider Probes
+
+        <span></span>
+                     
+                  </h4>
+                  <div>
+                     <p>
+        The following example shows how you would list available
+        <code class="codeph">syscall</code> provider probes.
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -l -P syscall | less</kbd>
+   ID   PROVIDER            MODULE                 FUNCTION NAME
+   18    syscall           vmlinux                     read entry
+   19    syscall           vmlinux                     read return
+   20    syscall           vmlinux                    write entry
+   21    syscall           vmlinux                    write return
+   22    syscall           vmlinux                     open entry
+   23    syscall           vmlinux                     open return
+   24    syscall           vmlinux                    close entry
+   25    syscall           vmlinux                    close return
+   26    syscall           vmlinux                  newstat entry
+   27    syscall           vmlinux                  newstat return
+...
+  648    syscall           vmlinux               pkey_alloc entry
+  649    syscall           vmlinux               pkey_alloc return
+  650    syscall           vmlinux                pkey_free entry
+  651    syscall           vmlinux                pkey_free return
+  652    syscall           vmlinux                    statx entry
+  653    syscall           vmlinux                    statx return
+  654    syscall           vmlinux                   waitfd entry
+  655    syscall           vmlinux                   waitfd return</pre></div>
+               </div>
+               <div class="sect3"><a id="ol_usesysprobes_exercise" name="ol_usesysprobes_exercise"></a><h4 id="OLDTT-ol_usesysprobes_exercise" class="sect4">Exercise: Using syscall Probes</h4>
+                  <div>
+                     <p><a id="d2922e1059" class="indexterm-anchor"></a>
+
+        Experiment by adapting the <code class="codeph">daterun.d</code> script
+        for another program. Make the new script produce output when the
+        system is running <kbd class="userinput">w</kbd>.
+      
+                     </p>
+                     <p>
+        (Estimated completion time: 10 minutes)
+      </p>
+                  </div>
+               </div>
+               <div class="sect3"><a id="ol_usesyscallprobes_solution" name="ol_usesyscallprobes_solution"></a><h4 id="OLDTT-ol_usesyscallprobes_solution" class="sect4">Solution to Exercise: Using syscall Probes
+
+        <span></span>
+                     
+                  </h4>
+                  <div><pre class="oac_no_warn" dir="ltr">#!/usr/sbin/dtrace -qs
+
+/* wrun.d -- Modified version of daterun.d for the w command */
+
+syscall::write:entry
+/execname == "w"/
+{
+  printf("%s(%d, %s, %d)\n", probefunc, arg0, copyinstr(arg1, arg2), arg2);
+} </pre><p>
+        The program uses the two-argument form of
+        <code class="codeph">copyinstr()</code>, as the string argument to
+        <code class="codeph">write()</code> might not be null-terminated:
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">chmod +x wrun.d</kbd>
+# <kbd class="userinput">./wrun.d</kbd>
+write(1,  12:14:55 up  3:21,  3 users,  load average: 0.14, 0.15, 0.18
+, 62)
+write(1, USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
+, 69)
+write(1, guest    tty1     :0               08:55    3:20m 11:23   0.17s pam: gdm-passwo
+, 80)
+write(1, guest    pts/0    :0.0             08:57    7.00s  0.17s  0.03s w
+m: gdm-passwo
+, 66)
+write(1, guest    pts/1    :0.0             12:14    7.00s  0.69s  8.65s gnome-terminal
+
+, 79)
+...
+^C</pre></div>
+               </div>
+            </div>
+            <div class="sect2"><a id="ol_timexmp_dtrace" name="ol_timexmp_dtrace"></a><h3 id="OLDTT-ol_timexmp_dtrace" class="sect3">Timing Events on a System</h3>
+               <div>
+                  <p>
+      Determining the time that a system takes to perform different
+      activities is a fundamental technique for analyzing its operation
+      and determining where bottlenecks might be occurring.
+    </p>
+               </div>
+               <div class="sect3"><a id="ol_example-readtraced" name="ol_example-readtraced"></a><h4 id="OLDTT-ol_example-readtraced" class="sect4">Example: Monitoring read() System Call Duration (readtrace.d)
+
+        <span></span>
+                     
+                  </h4>
+                  <div>
+                     <p>
+        The following is an example of the D program,
+        <code class="codeph">readtrace.d</code>.
+      
+                     </p><pre class="oac_no_warn" dir="ltr">/* readtrace.d -- Display time spent in read() calls */
+
+syscall::read:entry
+{
+  self-&gt;t = timestamp; /* Initialize a thread-local variable */
+}
+
+syscall::read:return
+/self-&gt;t != 0/
+{
+  printf("%s (pid=%d) spent %d microseconds in read()\n",
+  execname, pid, ((timestamp - self-&gt;t)/1000)); /* Divide by 1000 for microseconds */
+
+  self-&gt;t = 0; /* Reset the variable */
+}</pre><p>
+        In the example, the <code class="codeph">readtrace.d</code> program
+        displays the command name, process ID, and call duration in
+        microseconds whenever a process invokes the
+        <code class="codeph">read()</code> system call. The variable
+        <code class="codeph">self-&gt;t</code> is <span class="italic">thread-local</span>,
+        meaning that it exists only within the scope of execution of a
+        thread on the system. The program records the value of
+        <code class="codeph">timestamp</code> in <code class="codeph">self-&gt;t</code> when
+        the process calls <code class="codeph">read()</code>, and subtracts this
+        value from the value of <code class="codeph">timestamp</code> when the
+        call returns. The units of <code class="codeph">timestamp</code> are
+        nanoseconds, so you divide by 1000 to obtain a value in
+        microseconds.
+      
+                     </p>
+                     <p>
+        The following is output from running this program:
+      </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -q -s readtrace.d</kbd>
+NetworkManager (pid=878) spent 10 microseconds in read()
+NetworkManager (pid=878) spent 9 microseconds in read()
+NetworkManager (pid=878) spent 2 microseconds in read()
+in:imjournal (pid=815) spent 63 microseconds in read()
+gdbus (pid=878) spent 7 microseconds in read()
+gdbus (pid=878) spent 66 microseconds in read()
+gdbus (pid=878) spent 63 microseconds in read()
+irqbalance (pid=816) spent 56 microseconds in read()
+irqbalance (pid=816) spent 113 microseconds in read()
+irqbalance (pid=816) spent 104 microseconds in read()
+irqbalance (pid=816) spent 91 microseconds in read()
+irqbalance (pid=816) spent 61 microseconds in read()
+irqbalance (pid=816) spent 63 microseconds in read()
+irqbalance (pid=816) spent 61 microseconds in read()
+irqbalance (pid=816) spent 61 microseconds in read()
+irqbalance (pid=816) spent 61 microseconds in read()
+irqbalance (pid=816) spent 61 microseconds in read()
+irqbalance (pid=816) spent 61 microseconds in read()
+irqbalance (pid=816) spent 61 microseconds in read()
+sshd (pid=10230) spent 8 microseconds in read()
+in:imjournal (pid=815) spent 6 microseconds in read()
+sshd (pid=10230) spent 7 microseconds in read()
+in:imjournal (pid=815) spent 5 microseconds in read()
+sshd (pid=10230) spent 7 microseconds in read()
+in:imjournal (pid=815) spent 6 microseconds in read()
+sshd (pid=10230) spent 7 microseconds in read()
+in:imjournal (pid=815) spent 5 microseconds in read()
+<kbd class="userinput">^C</kbd></pre></div>
+               </div>
+               <div class="sect3"><a id="ol_timesyscalls_exercise" name="ol_timesyscalls_exercise"></a><h4 id="OLDTT-ol_timesyscalls_exercise" class="sect4">Exercise: Timing System Calls</h4>
+                  <div>
+                     <p><a id="d2922e1270" class="indexterm-anchor"></a>
+
+        Add a predicate to the <code class="codeph">entry</code> probe in
+        <code class="codeph">readtrace.d</code> so that <kbd class="userinput">dtrace</kbd>
+        displays results for a disk space usage report that is selected
+        by the name of its executable (<kbd class="userinput">df</kbd>).
+      
+                     </p>
+                     <p>
+        (Estimated completion time: 10 minutes)
+      </p>
+                  </div>
+               </div>
+               <div class="sect3"><a id="ol_timesyscalls_solution" name="ol_timesyscalls_solution"></a><h4 id="OLDTT-ol_timesyscalls_solution" class="sect4">Solution to Exercise: Timing System Calls
+
+        <span></span>
+                     
+                  </h4>
+                  <div>
+                     <p>
+        The following example shows a modified version of the
+        <code class="codeph">readtrace.d</code> program that includes a
+        predicate.
+      
+                     </p><pre class="oac_no_warn" dir="ltr">/* readtrace1.d -- Modified version of readtrace.d that includes a predicate */
+
+syscall::read:entry
+/execname == "df"/
+{
+  self-&gt;t = timestamp;
+}
+
+syscall::read:return
+/self-&gt;t != 0/
+{
+  printf("%s (pid=%d) spent %d microseconds in read()\n",
+  execname, pid, ((timestamp - self-&gt;t)/1000));
+
+  self-&gt;t = 0; /* Reset the variable */
+}</pre><p>
+        The predicate <code class="codeph">/execname == "df"/</code> tests
+        whether the <kbd class="userinput">df</kbd> program is running when the
+        probe fires.
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -q -s readtrace1.d</kbd> 
+df (pid=1666) spent 6 microseconds in read()
+df (pid=1666) spent 8 microseconds in read()
+df (pid=1666) spent 1 microseconds in read()
+df (pid=1666) spent 50 microseconds in read()
+df (pid=1666) spent 38 microseconds in read()
+df (pid=1666) spent 10 microseconds in read()
+df (pid=1666) spent 1 microseconds in read()
+<kbd class="userinput">^C</kbd></pre></div>
+               </div>
+               <div class="sect3"><a id="ol_timecalls_example" name="ol_timecalls_example"></a><h4 id="OLDTT-ol_timecalls_example" class="sect4">Exercise: Timing All System Calls for cp (calltrace.d)
+
+        <span></span>
+                     
+                  </h4>
+                  <div>
+                     <p>
+        Using the <code class="codeph">probefunc</code> variable and the
+        <code class="codeph">syscall:::entry</code> and
+        <code class="codeph">syscall:::return</code> probes, create a D program,
+        <code class="codeph">calltrace.d</code>, which times all system calls for
+        the executable <kbd class="userinput">cp</kbd>.
+      
+                     </p>
+                     <p>
+        (Estimated completion time: 10 minutes)
+      </p>
+                  </div>
+               </div>
+               <div class="sect3"><a id="ol-solution_calltraced" name="ol-solution_calltraced"></a><h4 id="OLDTT-ol-solution_calltraced" class="sect4">Solution to Exercise: Timing All System Calls for cp (calltrace.d)
+
+        <span></span>
+                     
+                  </h4>
+                  <div><pre class="oac_no_warn" dir="ltr">/* calltrace.d -- Time all system calls for cp */
+
+syscall:::entry
+/execname == "cp"/
+{
+  self-&gt;t = timestamp; /* Initialize a thread-local variable */
+}
+
+syscall:::return
+/self-&gt;t != 0/
+{
+  printf("%s (pid=%d) spent %d microseconds in %s()\n",
+  execname, pid, ((timestamp - self-&gt;t)/1000), probefunc);
+
+  self-&gt;t = 0; /* Reset the variable */
+}</pre><p>
+        Dropping the function name <code class="codeph">read</code> from the
+        probe specifications matches all instances of
+        <code class="codeph">entry</code> and <code class="codeph">return</code> probes
+        for <code class="codeph">syscall</code>. The following is a check for
+        system calls resulting from running the <kbd class="userinput">cp</kbd>
+        executable:
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -q -s calltrace.d</kbd> 
+cp (pid=2801) spent 4 microseconds in brk()
+cp (pid=2801) spent 5 microseconds in mmap()
+cp (pid=2801) spent 15 microseconds in access()
+cp (pid=2801) spent 7 microseconds in open()
+cp (pid=2801) spent 2 microseconds in newfstat()
+cp (pid=2801) spent 3 microseconds in mmap()
+cp (pid=2801) spent 1 microseconds in close()
+cp (pid=2801) spent 8 microseconds in open()
+cp (pid=2801) spent 3 microseconds in read()
+cp (pid=2801) spent 1 microseconds in newfstat()
+cp (pid=2801) spent 4 microseconds in mmap()
+cp (pid=2801) spent 12 microseconds in mprotect()
+   ...
+cp (pid=2801) spent 183 microseconds in open()
+cp (pid=2801) spent 1 microseconds in newfstat()
+cp (pid=2801) spent 1 microseconds in fadvise64()
+cp (pid=2801) spent 17251 microseconds in read()
+cp (pid=2801) spent 80 microseconds in write()
+cp (pid=2801) spent 58 microseconds in read()
+cp (pid=2801) spent 57 microseconds in close()
+cp (pid=2801) spent 85 microseconds in close()
+cp (pid=2801) spent 57 microseconds in lseek()
+cp (pid=2801) spent 56 microseconds in close()
+cp (pid=2801) spent 56 microseconds in close()
+cp (pid=2801) spent 56 microseconds in close()<kbd class="userinput">
+^C</kbd></pre></div>
+               </div>
+            </div>
+            <div class="sect2"><a id="ol_trcpcproc_dtrace" name="ol_trcpcproc_dtrace"></a><h3 id="OLDTT-ol_trcpcproc_dtrace" class="sect3">Tracing Parent and Child Processes</h3>
+               <div>
+                  <p>
+      When a process forks, it creates a child process that is
+      effectively a copy of its parent process, but with a different
+      process ID. For information about other differences, see the
+      <code class="codeph">fork(2)</code> manual page. The child process can
+      either run independently from its parent process to perform some
+      separate task. Or, a child process can execute a new program image
+      that replaces the child's program image while retaining the same
+      process ID.
+    
+                  </p>
+               </div>
+               <div class="sect3"><a id="ol-useproc_probes" name="ol-useproc_probes"></a><h4 id="OLDTT-ol-useproc_probes" class="sect4">Example: Using proc Probes to Report Activity on a System (activity.d)
+
+        <span></span>
+                     
+                  </h4>
+                  <div>
+                     <p>
+        The D program <code class="codeph">activity.d</code> in the following
+        example uses <code class="codeph">proc</code> probes to report
+        <code class="codeph">fork()</code> and <code class="codeph">exec()</code> activity
+        on a system.
+      
+                     </p><pre class="oac_no_warn" dir="ltr">#pragma D option quiet
+
+/* activity.d -- Record fork() and exec() activity */
+
+proc::_do_fork:create
+{
+  /* Extract PID of child process from the psinfo_t pointed to by args[0] */
+  childpid = args[0]-&gt;pr_pid;
+
+  time[childpid] = timestamp;
+  p_pid[childpid] = pid; /* Current process ID (parent PID of new child) */
+  p_name[childpid] = execname; /* Parent command name */
+  p_exec[childpid] = ""; /* Child has not yet been exec'ed */ 
+}
+
+proc::do_execveat_common:exec
+/p_pid[pid] != 0/
+{
+  p_exec[pid] = args[0]; /* Child process path name */
+}
+
+proc::do_exit:exit
+/p_pid[pid] != 0 &amp;&amp;  p_exec[pid] != ""/ 
+{
+  printf("%s (%d) executed %s (%d) for %d microseconds\n",
+    p_name[pid], p_pid[pid], p_exec[pid], pid, (timestamp - time[pid])/1000);
+}
+
+proc::do_exit:exit
+/p_pid[pid] != 0 &amp;&amp;  p_exec[pid] == ""/
+{
+  printf("%s (%d) forked itself (as %d) for %d microseconds\n",
+    p_name[pid], p_pid[pid], pid, (timestamp - time[pid])/1000);
+}  </pre><p>
+        In the example, the statement <code class="codeph">#pragma D option
+        quiet</code> has the same effect as specifying the
+        <kbd class="userinput">-q</kbd> option on the command line.
+      
+                     </p>
+                     <p>
+        The process ID of the child process
+        (<code class="codeph">childpid</code>), following a
+        <code class="codeph">fork()</code>, is determined by examining the
+        <code class="codeph">pr_pid</code> member of the
+        <code class="codeph">psinfo_t</code> data structure that is pointed to by
+        the <code class="codeph">args[0]</code> probe argument. For more
+        information about the arguments to <code class="codeph">proc</code>
+        probes, see
+        <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/dtrace-ref-DTraceProviders.html#dt_proc_prov" target="_blank">proc
+        Provider</a> in the <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/" target="_blank">Oracle Linux: DTrace Reference Guide</a>.
+      
+                     </p>
+                     <p>
+        The program uses the value of the child process ID to initialize
+        globally unique associative array entries, such as
+        <code class="codeph">p_pid[childpid]</code>.
+      
+                     </p>
+                     <div class="infoboxnote">
+                        <p class="notep1">Note:</p>
+                        
+                        <p>
+          An <span class="italic">associative array</span> is similar to a
+          normal array, in that it associates keys with values, but the
+          keys can be of any type; they need not be integers.
+        
+                        </p>
+                        
+                     </div>
+                     <p>
+        When you run the program, you should see output similar to the
+        following as you use the <kbd class="userinput">ssh</kbd> command to
+        access the same system from another terminal window. You might
+        want to try running different programs from this new terminal
+        window to generate additional output:
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -s activity.d</kbd> 
+sshd (3966) forked itself (as 3967) for 3667020 microseconds
+bash (3971) forked itself (as 3972) for 1718 microseconds
+bash (3973) executed /usr/bin/hostname (3974) for 1169 microseconds
+grepconf.sh (3975) forked itself (as 3976) for 1333 microseconds
+bash (3977) forked itself (as 3978) for 967 microseconds
+bash (3977) executed /usr/bin/tput (3979) for 1355 microseconds
+bash (3980) executed /usr/bin/dircolors (3981) for 1212 microseconds
+sshd (3966) executed /usr/sbin/unix_chkpwd (3968) for 31444 microseconds
+sshd (3966) executed /usr/sbin/unix_chkpwd (3969) for 1653 microseconds
+bash (3970) forked itself (as 3971) for 2411 microseconds
+bash (3970) forked itself (as 3973) for 1830 microseconds
+bash (3970) executed /usr/libexec/grepconf.sh (3975) for 3696 microseconds
+bash (3970) forked itself (as 3977) for 3273 microseconds
+bash (3970) forked itself (as 3980) for 1928 microseconds
+bash (3970) executed /usr/bin/grep (3982) for 1570 microseconds
+<kbd class="userinput">^C</kbd></pre></div>
+               </div>
+               <div class="sect3"><a id="ol_usepredicate_exercise" name="ol_usepredicate_exercise"></a><h4 id="OLDTT-ol_usepredicate_exercise" class="sect4">Exercise: Using a Predicate to Control the Execution of an Action</h4>
+                  <div>
+                     <p><a id="d2922e1641" class="indexterm-anchor"></a>
+
+        Modify <code class="codeph">activity.d</code> so that
+        <kbd class="userinput">dtrace</kbd> displays results for parent processes
+        that are selected by their executable name, for example,
+        <kbd class="userinput">bash</kbd>, or by a program name that you specify
+        as an argument to the <kbd class="userinput">dtrace</kbd> command.
+      
+                     </p>
+                     <p>
+        (Estimated completion time: 10 minutes)
+      </p>
+                  </div>
+               </div>
+               <div class="sect3"><a id="ol_usepredicate_solution" name="ol_usepredicate_solution"></a><h4 id="OLDTT-ol_usepredicate_solution" class="sect4">Solution to Exercise: Using a Predicate to Control the Execution of an
+        Action</h4>
+                  <div>
+                     <p>
+                        <a id="d2922e1692" class="indexterm-anchor"></a>
+                        
+                     </p>
+                     <div class="p">
+        The only change that is required to specify the name of an
+        executable is to add a predicate to the
+        <code class="codeph">proc::_do_fork:create</code> probe, for example:
+
+<pre class="oac_no_warn" dir="ltr">/execname == "bash"/</pre>
+                        </div>
+                     <p>
+        A more generic version of the program sets the predicate check
+        value from a passed-in command-line argument instead, for
+        example:
+      </p><pre class="oac_no_warn" dir="ltr">/execname == $1/</pre></div>
+               </div>
+               <div class="sect3"><a id="ol_record_activityd1_ex" name="ol_record_activityd1_ex"></a><h4 id="OLDTT-ol_record_activityd1_ex" class="sect4">Example: Recording fork() and exec() Activity for a Specified Program
+        (activity1.d)</h4>
+                  <div>
+                     <p><a id="d2922e1739" class="indexterm-anchor"></a>
+
+        The following example uses a predicate that is passed in from
+        the command line.
+      
+                     </p><pre class="oac_no_warn" dir="ltr">#pragma D option quiet
+
+/* activity1.d -- Record fork() and exec() activity for a specified program */
+
+proc::_do_fork:create
+/execname == $1/
+{
+  /* Extract PID of child process from the psinfo_t pointed to by args[0] */
+  childpid = args[0]-&gt;pr_pid;
+
+  time[childpid] = timestamp;
+  p_pid[childpid] = pid; /* Current process ID (parent PID of new child) */
+  p_name[childpid] = execname; /* Parent command name */
+  p_exec[childpid] = ""; /* Child has not yet been exec'ed */ 
+}
+
+proc::do_execveat_common:exec
+/p_pid[pid] != 0/
+{
+  p_exec[pid] = args[0]; /* Child process path name */
+}
+
+proc::do_exit:exit
+/p_pid[pid] != 0 &amp;&amp;  p_exec[pid] != ""/ 
+{
+  printf("%s (%d) executed %s (%d) for %d microseconds\n",
+    p_name[pid], p_pid[pid], p_exec[pid], pid, (timestamp - time[pid])/1000);
+}
+
+proc::do_exit:exit
+/p_pid[pid] != 0 &amp;&amp;  p_exec[pid] == ""/
+{
+  printf("%s (%d) forked itself (as %d) for %d microseconds\n",
+    p_name[pid], p_pid[pid], pid, (timestamp - time[pid])/1000);
+}  </pre><p>
+        As shown in the following example, you can now specify the name
+        of the program to be traced as an argument to the
+        <kbd class="userinput">dtrace</kbd> command. Note that you need to escape
+        the argument to protect the double quotes from the shell:
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -s activity.d '"bash"'</kbd>
+bash (10367) executed /bin/ps (10368) for 10926 microseconds
+bash (10360) executed /usr/bin/tty (10361) for 3046 microseconds
+bash (10359) forked itself (as 10363) for 32005 microseconds
+bash (10366) executed /bin/basename (10369) for 1285 microseconds
+bash (10359) forked itself (as 10370) for 12373 microseconds
+bash (10360) executed /usr/bin/tput (10362) for 34409 microseconds
+bash (10363) executed /usr/bin/dircolors (10364) for 29527 microseconds
+bash (10359) executed /bin/grep (10365) for 21024 microseconds
+bash (10366) forked itself (as 10367) for 11749 microseconds
+bash (10359) forked itself (as 10360) for 41918 microseconds
+bash (10359) forked itself (as 10366) for 14197 microseconds
+bash (10370) executed /usr/bin/id (10371) for 11729 microseconds
+<kbd class="userinput">^C</kbd></pre></div>
+               </div>
+            </div>
+            <div class="sect2"><a id="ol_aggexmp_dtrace" name="ol_aggexmp_dtrace"></a><h3 id="OLDTT-ol_aggexmp_dtrace" class="sect3">Simple Data Aggregations</h3>
+               <div>
+                  <p>
+      DTrace provides several functions for aggregating the data that
+      individual probes gather. These functions include
+      <code class="codeph">avg()</code>, <code class="codeph">count()</code>,
+      <code class="codeph">max()</code>, <code class="codeph">min()</code>,
+      <code class="codeph">stddev()</code>, and <code class="codeph">sum()</code>, which
+      return the mean, number, maximum value, minimum value, standard
+      deviation, and summation of the data being gathered, respectively.
+      See
+      <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/dtrace-ref-Aggregations.html" target="_blank">Aggregations</a>
+      in the <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/" target="_blank">Oracle Linux: DTrace Reference Guide</a> for descriptions of aggregation
+      functions.
+    
+                  </p>
+                  <p>
+      DTrace indexes the results of an aggregation by using a tuple
+      expression that similar to what is used for an associative array:
+    </p><pre class="oac_no_warn" dir="ltr">@<span class="variable" translate="no">name</span>[<span class="variable" translate="no">list_of_keys</span>] = <span class="variable" translate="no">aggregating_function</span>(<span class="variable" translate="no">args</span>);</pre><p>
+      The name of the aggregation is prefixed with an
+      <code class="codeph">@</code> character. The keys describe the data that
+      the aggregating function is collecting. If you do not specify a
+      name for the aggregation, DTrace uses <code class="codeph">@</code> as an
+      anonymous aggregation name, which is usually sufficient for simple
+      D programs.
+    
+                  </p>
+               </div>
+               <div class="sect3"><a id="ol_countcall_byprocess" name="ol_countcall_byprocess"></a><h4 id="OLDTT-ol_countcall_byprocess" class="sect4">Example: Counting the Number of write() System Calls Invoked by
+        Processes</h4>
+                  <div>
+                     <p><a id="d2922e1872" class="indexterm-anchor"></a>
+
+        In the following example, the command counts the number of
+        <code class="codeph">write()</code> system calls that are invoked by
+        processes, until you type <code class="codeph">Ctrl-C</code>.
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -n 'syscall::write:entry { @["write() calls"] = count(); }'</kbd>
+dtrace: description 'syscall:::' matched 1 probe
+<kbd class="userinput">^C</kbd>
+
+  write() calls                                              9</pre><div class="infoboxnote">
+                        <p class="notep1">Note:</p>
+                        
+                        <p>
+          Rather than create a separate D script for this simple
+          example, the probe and the action is specified on the
+          <kbd class="userinput">dtrace</kbd> command line.
+        
+                        </p>
+                        
+                        <p>
+          DTrace prints the result of the aggregation automatically.
+          Alternatively, you can use the <code class="codeph">printa()</code>
+          function to format the result of the aggregation.
+        
+                        </p>
+                        
+                     </div>
+                  </div>
+               </div>
+               <div class="sect3"><a id="ol_count-syscalls" name="ol_count-syscalls"></a><h4 id="OLDTT-ol_count-syscalls" class="sect4">Example: Counting the Number of read() and write() System Calls</h4>
+                  <div>
+                     <p><a id="d2922e1935" class="indexterm-anchor"></a>
+
+        The following example counts the number of both
+        <code class="codeph">read()</code> and <code class="codeph">write()</code> system
+        calls.
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -n 'syscall::write:entry,syscall::read:entry { @[strjoin(probefunc,"() calls")] = count(); }'</kbd> 
+dtrace: description 'syscall::write:entry,syscall::read:entry' matched 2 probes
+<kbd class="userinput">^C</kbd>
+
+  write() calls                                            150
+  read() calls                                            1555</pre></div>
+               </div>
+               <div class="sect3"><a id="ol_syscallsfixed_exercise" name="ol_syscallsfixed_exercise"></a><h4 id="OLDTT-ol_syscallsfixed_exercise" class="sect4">Exercise: Counting System Calls Over a Fixed Period</h4>
+                  <div>
+                     <p><a id="d2922e1985" class="indexterm-anchor"></a>
+
+        Write a D program named <code class="codeph">countcalls.d</code> that
+        uses a <code class="codeph">tick</code> probe and
+        <code class="codeph">exit()</code> to stop collecting data after 100
+        seconds and display the number of <code class="codeph">open()</code>,
+        <code class="codeph">read()</code> and <code class="codeph">write()</code> calls.
+      
+                     </p>
+                     <p>
+        (Estimated completion time: 15 minutes)
+      </p>
+                  </div>
+               </div>
+               <div class="sect3"><a id="ol_countcalls100_example" name="ol_countcalls100_example"></a><h4 id="OLDTT-ol_countcalls100_example" class="sect4">Solution to Exercise and Example: Counting Write, Read, and Open System
+        Calls Over 100 Seconds (countcalls.d)
+
+        <span></span>
+                     <span></span>
+                     
+                  </h4>
+                  <div><pre class="oac_no_warn" dir="ltr">/* countcalls.d -- Count write, read, and open system calls over 100 seconds */
+
+profile:::tick-100sec
+{
+  exit(0);
+}
+
+syscall::write:entry, syscall::read:entry, syscall::open:entry
+{
+  @[strjoin(probefunc,"() calls")] = count();
+}</pre><p>
+        The action that is associated with the
+        <code class="codeph">tick-100s</code> probe means that
+        <kbd class="userinput">dtrace</kbd> exits after 100 seconds and prints the
+        results of the aggregation.
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -s countcalls.d</kbd>
+dtrace: script 'countcalls.d' matched 4 probes
+CPU     ID                    FUNCTION:NAME
+  3    643                     :tick-100sec 
+
+  write() calls                                                  1062
+  open() calls                                                   1672
+  read() calls                                                  29672</pre></div>
+               </div>
+               <div class="sect3"><a id="ol_countsyscalld_proc_example" name="ol_countsyscalld_proc_example"></a><h4 id="OLDTT-ol_countsyscalld_proc_example" class="sect4">Example: Counting System Calls Invoked by a Process (countsyscalls.d)
+
+        <span></span>
+                     
+                  </h4>
+                  <div>
+                     <p>
+        The D program <code class="codeph">countsyscalls.d</code> shown in the
+        following example counts the number of times a process that is
+        specified by its process ID invokes different system calls.
+      
+                     </p><pre class="oac_no_warn" dir="ltr">#!/usr/sbin/dtrace -qs
+
+/* countsyscalls.d -- Count system calls invoked by a process */
+
+syscall:::entry
+/pid == $1/
+{
+  @num[probefunc] = count();
+}</pre><p>
+        After making the <code class="codeph">syscalls.d</code> file executable,
+        you can run it from the command line, specifying a process ID as
+        its argument.
+      
+                     </p>
+                     <p>
+        The following example shows how you would monitor the use of the
+        <kbd class="userinput">emacs</kbd> program that was previously invoked.
+        After the script is invoked, within <kbd class="userinput">emacs</kbd> a
+        couple files are opened, modified, and then saved before exiting
+        the D script.
+      
+                     </p>
+                     <p>
+        Make the script executable:
+      </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">chmod +x countsyscalls.d</kbd></pre><p>
+        From another command line, type:
+      </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">emacs foobar.txt</kbd></pre><p>
+        Now, start the script and use the opened
+        <kbd class="userinput">emacs</kbd> window:
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">./countsyscalls.d $(pgrep -u root emacs)</kbd>
+                     <kbd class="userinput">^C </kbd>
+
+  chmod                                                             1 
+  exit_group                                                        1 
+  futex                                                             1 
+  getpgrp                                                           1 
+  lseek                                                             1 
+  lsetxattr                                                         1 
+  rename                                                            1 
+  fsync                                                             2 
+  lgetxattr                                                         2 
+  alarm                                                             3 
+  rt_sigaction                                                      3 
+  unlink                                                            3 
+  mmap                                                              4 
+  munmap                                                            4 
+  symlink                                                           4 
+  fcntl                                                             6 
+  newfstat                                                          6 
+  getgid                                                            7 
+  getuid                                                            7 
+  geteuid                                                           8 
+  openat                                                            8 
+  access                                                            9 
+  getegid                                                          14 
+  open                                                             14 
+  getdents                                                         15 
+  close                                                            17 
+  readlink                                                         19 
+  newlstat                                                         33 
+  newstat                                                         155 
+  read                                                            216 
+  timer_settime                                                   231 
+  write                                                           314 
+  pselect6                                                        376 
+  rt_sigreturn                                                    393 
+  ioctl                                                           995 
+  rt_sigprocmask                                                 1261 
+  clock_gettime                                                  3495 </pre><p>
+        In the preceding example, the <kbd class="userinput">pgrep</kbd> command
+        is used to determine the process ID of the
+        <kbd class="userinput">emacs</kbd> program that the
+        <code class="codeph">root</code> user is running.
+      
+                     </p>
+                  </div>
+               </div>
+               <div class="sect3"><a id="ol_traceuserproc_exercise" name="ol_traceuserproc_exercise"></a><h4 id="OLDTT-ol_traceuserproc_exercise" class="sect4">Exercise: Tracing Processes That Are Run by a User</h4>
+                  <div>
+                     <p><a id="d2922e2187" class="indexterm-anchor"></a>
+
+        Create a program <code class="codeph">countprogs.d</code> that counts and
+        displays the number of times a user (specified by their user
+        name) runs different programs. You can use the <kbd class="userinput">id -u
+        <span class="variable" translate="no">user</span>
+                           </kbd> command to obtain the
+        ID that corresponds to a user name.
+      
+                     </p>
+                     <p>
+        (Estimated completion time: 10 minutes)
+      </p>
+                  </div>
+               </div>
+               <div class="sect3"><a id="ol_proginvokeuser_solution" name="ol_proginvokeuser_solution"></a><h4 id="OLDTT-ol_proginvokeuser_solution" class="sect4">Solution to Exercise and Example: Counting Programs Invoked by a
+        Specified User (countprogs.d)
+
+        <span></span>
+                     <span></span>
+                     
+                  </h4>
+                  <div><pre class="oac_no_warn" dir="ltr">#!/usr/sbin/dtrace -qs
+
+/* countprogs.d -- Count programs invoked by a specified user */
+
+proc::do_execveat_common:exec
+/uid == $1/
+{
+  @num[execname] = count();
+}</pre><p>
+        The predicate <code class="codeph">/uid == $1/</code> compares the
+        effective UID for each program that is run against the argument
+        specified on the command line. You can use the <kbd class="userinput">id -u
+        <span class="variable" translate="no">user</span>
+                           </kbd> command to find out
+        the ID of the guest user account, for example:
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">chmod +x countprogs.d</kbd>
+# ./countprogs.d $(id -u guest)
+^C
+
+less 1
+lesspipe.sh 1
+sh 1
+bash 9</pre><p>
+        You can use the same command for the <code class="codeph">root</code>
+        user, which is typically user <code class="codeph">0</code>. For testing
+        purposes, you might want to have the user account under a test
+        login by using another window and then run some nominal
+        programs.
+      
+                     </p>
+                  </div>
+               </div>
+               <div class="sect3"><a id="ol_timesreadfrfile_example" name="ol_timesreadfrfile_example"></a><h4 id="OLDTT-ol_timesreadfrfile_example" class="sect4">Example: Counting the Number of Times a Program Reads From Different
+        Files in 10 Seconds (fdscount.d)
+
+        <span></span>
+                     
+                  </h4>
+                  <div>
+                     <p>
+        The following D program counts the number of times a program
+        reads from different files, within ten seconds, and displays
+        just the top five results.
+      </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">emacs fdscount.d</kbd>
+# <kbd class="userinput">dtrace -C -D ENAME='"emacs"' -qs fdscount.d</kbd>
+
+  /usr/share/terminfo/x/xterm                                       2
+  /dev/urandom                                                      3
+  /usr/share/emacs/24.3/lisp/calendar/time-date.elc                 5
+  /dev/tty                                                          8
+  /usr/share/emacs/24.3/lisp/term/xterm.elc                         8</pre><p>
+        Use the <code class="codeph">fds[]</code> built-in array to determine
+        which file corresponds to the file descriptor argument
+        <code class="codeph">arg0</code> to <code class="codeph">read()</code>. The
+        <code class="codeph">fi_pathname</code> member of the
+        <code class="codeph">fileinfo_t</code> structure that is indexed in
+        <code class="codeph">fds[]</code> by <code class="codeph">arg0</code> contains the
+        full pathname of the file.
+      
+                     </p>
+                     <p>
+        See
+        <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/dtrace-ref-DTraceProviders.html#dt_io_prov" target="_blank">fileinfo_t</a>
+        in the <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/" target="_blank">Oracle Linux: DTrace Reference Guide</a> for more information about the
+        members of the <code class="codeph">fileinfo_t</code> structure.
+      
+                     </p>
+                     <p>
+        The <code class="codeph">trunc()</code> function in the
+        <code class="codeph">END</code> action instructs DTrace to display just
+        the top five results from the aggregation.
+      
+                     </p>
+                     <p>
+        DTrace has access to the <code class="codeph">profile:::tick-10s</code>
+        probe, the <code class="codeph">fds[]</code> built-in array, and the
+        <code class="codeph">syscall::read:entry</code> probe. You specify a C
+        preprocessor directive to <kbd class="userinput">dtrace</kbd> that sets
+        the value of the <span class="variable" translate="no">ENAME</span> variable, such
+        as to <code class="codeph">emacs</code>. Although, you could choose any
+        executable. Note that you must use additional single quotes to
+        escape the string quotes, for example:
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -C -D ENAME='"emacs"' -qs fdscount.d</kbd>
+
+/usr/share/terminfo/x/xterm 2
+/dev/tty 3
+/dev/urandom 3
+/usr/share/emacs/24.3/lisp/calendar/time-date.elc 5
+/usr/share/emacs/24.3/lisp/term/xterm.elc 8</pre><p>
+        If the executable under test shows a
+        <code class="codeph">/proc/</code>
+                        <span class="variable" translate="no">pid</span>/<code class="codeph">maps</code>
+        entry in the output, it refers to a file in the
+        <code class="codeph">procfs</code> file system that contains information
+        about the process's mapped memory regions and permissions.
+        Seeing <code class="codeph">pipe:</code>
+                        <span class="variable" translate="no">inode</span>
+        and <code class="codeph">socket:</code>
+                        <span class="variable" translate="no">inode</span>
+        entries would refer to inodes in the <code class="codeph">pipefs</code>
+        and <code class="codeph">socketfs</code> file systems.
+      
+                     </p>
+                  </div>
+               </div>
+               <div class="sect3"><a id="ol_countcontextswitch_exer" name="ol_countcontextswitch_exer"></a><h4 id="OLDTT-ol_countcontextswitch_exer" class="sect4">Exercise: Counting Context Switches on a System</h4>
+                  <div>
+                     <p><a id="d2922e2448" class="indexterm-anchor"></a>
+
+        Create an executable D program named
+        <code class="codeph">cswpercpu.d</code> that displays a timestamp and
+        prints the number of context switches per CPU and the total for
+        all CPUs once per second, together with the CPU number or
+        <code class="codeph">"total"</code>.
+      
+                     </p>
+                     <ul style="list-style-type: disc;">
+                        <li>
+                           
+                           <p>
+            Using the <code class="codeph">BEGIN</code> probe, print a header for
+            the display with columns labelled
+            <code class="codeph">Timestamp</code>, <code class="codeph">CPU</code>, and
+            <code class="codeph">Ncsw</code>.
+          
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+            Using the <code class="codeph">sched:::on-cpu</code> probe to detect
+            the end of a context switch, use
+            <code class="codeph">lltostr()</code> to convert the CPU number for
+            the context in which the probe fired to a string, and use
+            <code class="codeph">count()</code> to increment the aggregation
+            variable <code class="codeph">@n</code> once with the key value set
+            to the CPU number string and once with the key value set to
+            <code class="codeph">"total"</code>.
+          
+                           </p>
+                           
+                           <p>
+            See
+            <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/dtrace-ref-DTraceProviders.html#dt_sched_prov" target="_blank">sched
+            Provider</a> in the <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/" target="_blank">Oracle Linux: DTrace Reference Guide</a>
+            for a description of the <code class="codeph">sched:::on-cpu</code>
+            probe.
+          
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+            Using the <code class="codeph">profile:::tick-1sec</code> probe, use
+            <code class="codeph">printf()</code> to print the data and time, use
+            <code class="codeph">printa()</code> to print the key (the CPU number
+            string or <code class="codeph">"total"</code>) and the aggregation
+            value. The date and time are available as the value of
+            <code class="codeph">walltimestamp</code> variable, which you can
+            print using the <code class="codeph">%Y</code> conversion format
+          
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+            Use <code class="codeph">clear()</code> to reset the aggregation
+            variable <code class="codeph">@n</code>.
+          
+                           </p>
+                           
+                        </li>
+                     </ul>
+                     <p>
+        (Estimated completion time: 40 minutes)
+      </p>
+                  </div>
+               </div>
+               <div class="sect3"><a id="ol_countcontextswitch_sol" name="ol_countcontextswitch_sol"></a><h4 id="OLDTT-ol_countcontextswitch_sol" class="sect4">Solution to Exercise and Example: Counting Context Switches on a System</h4>
+                  <div>
+                     <p><a id="d2922e2578" class="indexterm-anchor"></a><a id="d2922e2580" class="indexterm-anchor"></a>
+
+        The following example shows the executable D program
+        <code class="codeph">cswpercpu.d</code>. The program displays a timestamp
+        and prints the number of context switches, per-CPU, and the
+        total for all CPUs, once per second, together with the CPU
+        number or <code class="codeph">"total"</code>:
+      
+                     </p><pre class="oac_no_warn" dir="ltr">#!/usr/sbin/dtrace -qs
+
+/* cswpercpu.d -- Print number of context switches per CPU once per second */
+
+#pragma D option quiet
+
+dtrace:::BEGIN
+{
+  /* Print the header */
+  printf("%-25s %5s %15s", "Timestamp", "CPU", "Ncsw");
+}
+
+sched:::on-cpu
+{
+  /* Convert the cpu number to a string */
+  cpustr = lltostr(cpu);
+  /* Increment the counters */
+  @n[cpustr] = count();
+  @n["total"] = count();
+}
+
+profile:::tick-1sec
+{
+  /* Print the date and time before the first result */
+  printf("\n%-25Y ", walltimestamp);
+
+  /* Print the aggregated counts for each CPU and the total for all CPUs */
+  printa("%5s %@15d\n                          ", @n);
+
+  /* Reset the aggregation */
+  clear(@n);
+}</pre><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">chmod +x cswpercpu.d</kbd>
+# <kbd class="userinput">./cswpercpu.d</kbd>
+Timestamp                   CPU            Ncsw
+2013 Nov  6 20:47:26          1             148
+                              0             155
+                              3             200
+                              2             272
+                          total             775
+                          
+2013 Nov  6 20:47:27          1             348
+                              0             364
+                              3             364
+                              2             417
+                          total            1493
+                          
+2013 Nov  6 20:47:28          3              47
+                              1             100
+                              0             121
+                              2             178
+                          total             446
+                          <kbd class="userinput">^C</kbd></pre><p>
+        You might want to experiment with aggregating the total time
+        that is spent context switching and the average time per context
+        switch. For example, you can experiment by initializing a
+        thread-local variable to the value of
+        <code class="codeph">timestamp</code> in the action to a
+        <code class="codeph">sched:::off-cpu</code> probe, and subtracting this
+        value from the value of <code class="codeph">timestamp</code> in the
+        action to <code class="codeph">sched:::on-cpu</code>. Use the
+        <code class="codeph">sum()</code> and <code class="codeph">avg()</code>
+        aggregation functions, respectively.
+      
+                     </p>
+                  </div>
+               </div>
+            </div>
+            <div class="sect2"><a id="ol_cplxagg_dtrace" name="ol_cplxagg_dtrace"></a><h3 id="OLDTT-ol_cplxagg_dtrace" class="sect3">Working With More Complex Data Aggregations</h3>
+               <div>
+                  <p>
+      Use the <code class="codeph">lquantize()</code> and
+      <code class="codeph">quantize()</code> functions to display linear and
+      power-of-two frequency distributions of data. See
+      <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/dtrace-ref-Aggregations.html" target="_blank">Aggregations</a>
+      in the <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/" target="_blank">Oracle Linux: DTrace Reference Guide</a> for a description of aggregation
+      functions.
+    
+                  </p>
+               </div>
+               <div class="sect3"><a id="ol_displayreadsize_example" name="ol_displayreadsize_example"></a><h4 id="OLDTT-ol_displayreadsize_example" class="sect4">Example: Displaying the Distribution of Read Sizes Resulting From a
+        Command
+
+        <span></span>
+                     
+                  </h4>
+                  <div>
+                     <p>
+        As shown in the following example, you can display the
+        distribution of the sizes specified to <code class="codeph">arg2</code>
+        of <code class="codeph">read()</code> calls that were invoked by all
+        instances of <kbd class="userinput">find</kbd> that are running. After
+        running the script, start a search with <kbd class="userinput">find</kbd>
+        in another window, such as <kbd class="userinput">find .</kbd> or
+        <kbd class="userinput">find /.</kbd>.
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -n 'syscall::read:entry /execname=="find"/{@dist["find"]=quantize(arg2);}'</kbd>
+dtrace: description 'syscall::read:entry ' matched 1 probe
+<kbd class="userinput">^C</kbd>
+
+   find
+            value  ------------- Distribution ------------- count
+              256 | 0
+              512 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 6
+             1024 | 0
+             2048 | 0
+             4096 |@@@@@@@@@@ 2
+             8192 | 0</pre><p>
+        If the program is as simple as the program in the previous
+        example, it is often convenient to run it from the command line.
+      </p>
+                  </div>
+               </div>
+               <div class="sect3"><a id="ol_distblock_example" name="ol_distblock_example"></a><h4 id="OLDTT-ol_distblock_example" class="sect4">Example: Displaying the Distribution of I/O Throughput for Block Devices
+        (diskact.d)
+
+        <span></span>
+                     
+                  </h4>
+                  <div>
+                     <p>
+        In the following example, the <code class="codeph">diskact.d</code>
+        script uses <code class="codeph">io</code> provider probes that are
+        enabled by the <code class="codeph">sdt</code> kernel module to display
+        the distribution of I/O throughput for the block devices on the
+        system.
+      
+                     </p><pre class="oac_no_warn" dir="ltr">#pragma D option quiet
+
+/* diskact.d -- Display the distribution of I/O throughput for block devices */
+
+io:::start
+{
+  start[args[0]-&gt;b_edev, args[0]-&gt;b_blkno] = timestamp;
+}
+
+io:::done
+/start[args[0]-&gt;b_edev, args[0]-&gt;b_blkno]/
+{
+  /*
+     You want to get an idea of our throughput to this device in KB/sec
+     but you have values that are measured in bytes and nanoseconds.
+     You want to calculate the following:
+    
+     bytes / 1024
+     ------------------------
+     nanoseconds / 1000000000
+    
+     As DTrace uses integer arithmetic and the denominator is usually
+     between 0 and 1 for most I/O, the calculation as shown will lose
+     precision. So, restate the fraction as:
+    
+     bytes         1000000000      bytes * 976562
+     ----------- * ------------- = --------------
+     nanoseconds   1024            nanoseconds
+    
+     This is easy to calculate using integer arithmetic.
+   */
+  this-&gt;elapsed = timestamp - start[args[0]-&gt;b_edev, args[0]-&gt;b_blkno];
+  @[args[1]-&gt;dev_statname, args[1]-&gt;dev_pathname] =
+    quantize((args[0]-&gt;b_bcount * 976562) / this-&gt;elapsed);
+  start[args[0]-&gt;b_edev, args[0]-&gt;b_blkno] = 0;
+}
+
+END
+{
+  printa(" %s (%s)\n%@d\n", @);
+}</pre><p>
+        The <code class="codeph">#pragma D option quiet</code> statement is used
+        to suppress unwanted output and the <code class="codeph">printa()</code>
+        function is used to display the results of the aggregation.
+      
+                     </p>
+                     <p>
+        See
+        <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/dtrace-ref-DTraceProviders.html#dt_io_prov" target="_blank">io
+        Provider</a> in the <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/" target="_blank">Oracle Linux: DTrace Reference Guide</a> for a
+        description of the arguments to the
+        <code class="codeph">io:::start</code> and <code class="codeph">io:::done</code>
+        probes.
+      
+                     </p>
+                     <p>
+        See
+        <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/dtrace-ref-OutputFormatting.html" target="_blank">Output
+        Formatting</a> in the <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/" target="_blank">Oracle Linux: DTrace Reference Guide</a> for
+        a description of the <code class="codeph">printa()</code> function.
+      
+                     </p>
+                     <p>
+        After running the program for approximately a minute, type
+        <code class="codeph">Ctrl-C</code> to display the results:
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -s diskact.d</kbd>
+                     <kbd class="userinput">^C</kbd>
+
+xvda2 (&lt;unknown&gt;)
+
+            value  ------------- Distribution ------------- count
+               -1 | 0
+                0 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 3
+                1 | 0
+
+xvdc (&lt;unknown&gt;)
+
+            value  ------------- Distribution ------------- count
+               -1 | 0
+                0 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 3
+                1 | 0
+
+xvdc1 (&lt;unknown&gt;)
+
+            value  ------------- Distribution ------------- count
+               -1 | 0
+                0 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 3
+                1 | 0
+
+  dm-0 (&lt;unknown&gt;)
+
+            value  ------------- Distribution ------------- count
+              256 | 0
+              512 |@@ 1
+             1024 |@@ 1
+             2048 |@@@@@@ 3
+             4096 |@@@@@@@@@@ 5
+             8192 |@@@@@@@@@@@@@@@@@ 9
+            16384 |@@@@ 2
+            32768 | 0</pre></div>
+               </div>
+               <div class="sect3"><a id="ol_displayrwseparate_exercise" name="ol_displayrwseparate_exercise"></a><h4 id="OLDTT-ol_displayrwseparate_exercise" class="sect4">Exercise: Displaying Read and Write I/O Throughput Separately</h4>
+                  <div>
+                     <p><a id="d2922e2867" class="indexterm-anchor"></a>
+
+        Create a version of <code class="codeph">diskact.d</code> that aggregates
+        the results separately for reading from, and writing to, block
+        devices. Use a <code class="codeph">tick</code> probe to collect data for
+        10 seconds.
+      
+                     </p>
+                     <ul style="list-style-type: disc;">
+                        <li>
+                           
+                           <p>
+            In the actions for <code class="codeph">io:::start</code> and
+            <code class="codeph">io:::done</code>, assign the value of
+            <code class="codeph">args[0]-&gt;b_flags&nbsp;&amp;&nbsp;B_READ&nbsp;?&nbsp;"READ"&nbsp;:&nbsp;"WRITE"</code>
+            to the variable <code class="codeph">iodir</code>.
+          
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+            In the actions for <code class="codeph">io:::start</code> and
+            <code class="codeph">io:::done</code>, add <code class="codeph">iodir</code>
+            as a key to the <code class="codeph">start[]</code> associative
+            array.
+          
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+            In the action for <code class="codeph">io:::done</code>, add
+            <code class="codeph">iodir</code> as a key to the anonymous
+            aggregation variable <code class="codeph">@[]</code>.
+          
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+            Modify the format string for <code class="codeph">printa()</code> to
+            display the value of the <code class="codeph">iodir</code> key.
+          
+                           </p>
+                           
+                        </li>
+                     </ul>
+                     <p>
+        (Estimated completion time: 20 minutes)
+      </p>
+                  </div>
+               </div>
+               <div class="sect3"><a id="ol_displayrwseparate_solution" name="ol_displayrwseparate_solution"></a><h4 id="OLDTT-ol_displayrwseparate_solution" class="sect4">Solution to Exercise: Displaying Read and Write I/O Throughput
+        Separately
+
+        <span></span>
+                     
+                  </h4>
+                  <div>
+                     <p>
+        The following example shows a modified version of the
+        <code class="codeph">diskact.d</code> script, which displays separate
+        results for read and write I/O:
+      
+                     </p><pre class="oac_no_warn" dir="ltr">#pragma D option quiet
+
+/* rwdiskact.d -- Modified version of diskact.d that displays
+                  separate results for read and write I/O     */
+
+profile:::tick-10sec
+{
+  exit(0);
+}
+
+io:::start
+{
+  iodir = args[0]-&gt;b_flags &amp; B_READ ? "READ" : "WRITE";
+  start[args[0]-&gt;b_edev, args[0]-&gt;b_blkno, iodir] = timestamp;
+}
+
+io:::done
+{
+  iodir = args[0]-&gt;b_flags &amp; B_READ ? "READ" : "WRITE";
+  this-&gt;elapsed = timestamp - start[args[0]-&gt;b_edev,args[0]-&gt;b_blkno,iodir];
+  @[args[1]-&gt;dev_statname, args[1]-&gt;dev_pathname, iodir] = 
+    quantize((args[0]-&gt;b_bcount * 976562) / this-&gt;elapsed);
+  start[args[0]-&gt;b_edev, args[0]-&gt;b_blkno,iodir] = 0;}
+
+END
+{
+  printa(" %s (%s) %s \n%@d\n", @);
+}</pre><p>
+        In the example, adding the <code class="codeph">iodir</code> variable to
+        the tuple in the aggregation variable enables DTrace to display
+        separate aggregations for read and write I/O operations.
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">dtrace -s rwdiskact.d</kbd>
+                     <kbd class="userinput">
+^C</kbd>
+  xvda2 (&lt;unknown&gt;) WRITE
+
+            value  ------------- Distribution ------------- count
+               -1 | 0
+                0 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 1
+                1 | 0
+
+  xvdc (&lt;unknown&gt;) WRITE
+
+            value  ------------- Distribution ------------- count
+               -1 | 0
+                0 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 1
+                1 | 0
+
+  xvdc1 (&lt;unknown&gt;) WRITE
+
+            value  ------------- Distribution ------------- count
+               -1 | 0
+                0 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 1
+                1 | 0
+
+  nfs (&lt;nfs&gt;) READ
+
+            value  ------------- Distribution ------------- count
+               -1 | 0
+                0 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 5
+                1 | 0
+
+  dm-0 (&lt;unknown&gt;) WRITE
+
+            value  ------------- Distribution ------------- count
+             4096 | 0
+             8192 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 1
+            16384 | 0</pre></div>
+               </div>
+               <div class="sect3"><a id="ol_cumreadwrite_example" name="ol_cumreadwrite_example"></a><h4 id="OLDTT-ol_cumreadwrite_example" class="sect4">Example: Displaying Cumulative Read and Write Activity Across a File
+        System Device (fsact)</h4>
+                  <div>
+                     <p><a id="d2922e3025" class="indexterm-anchor"></a>
+
+        The following example is a <kbd class="userinput">bash</kbd> shell script
+        that uses an embedded D program to display cumulative read and
+        write block counts for a local file system according to their
+        location on the file system's underlying block device. The
+        <code class="codeph">lquantize()</code> aggregation function is used to
+        display the results linearly as tenths of the total number of
+        blocks on the device.
+      
+                     </p><pre class="oac_no_warn" dir="ltr">#!/bin/bash
+
+# fsact -- Display cumulative read and write activity across a file system device
+#
+#          Usage: fsact [&lt;filesystem&gt;]
+
+# Could load the required DTrace modules, if they were not autoloaded.
+# grep profile /proc/modules &gt; /dev/null 2&gt;&amp;1 || modprobe profile
+# grep sdt /proc/modules &gt; /dev/null 2&gt;&amp;1 || modprobe sdt
+
+# If no file system is specified, assume /
+[ $# -eq 1 ] &amp;&amp; FSNAME=$1 || FSNAME="/"
+[ ! -e $FSNAME ] &amp;&amp; echo "$FSNAME not found" &amp;&amp; exit 1
+
+# Determine the mountpoint, major and minor numbers, and file system size
+MNTPNT=$(df $FSNAME | gawk '{ getline; print $1; exit }')
+MAJOR=$(printf "%d\n" 0x$(stat -Lc "%t" $MNTPNT))
+MINOR=$(printf "%d\n" 0x$(stat -Lc "%T" $MNTPNT))
+FSSIZE=$(stat -fc "%b" $FSNAME)
+
+# Run the embedded D program
+dtrace -qs /dev/stdin &lt;&lt; EOF
+io:::done
+/args[1]-&gt;dev_major == $MAJOR &amp;&amp; args[1]-&gt;dev_minor == $MINOR/
+{
+  iodir = args[0]-&gt;b_flags &amp; B_READ ? "READ" : "WRITE";
+  /* Normalize the block number as an integer in the range 0 to 10 */ 
+  blkno = (args[0]-&gt;b_blkno)*10/$FSSIZE;
+  /* Aggregate blkno linearly over the range 0 to 10 in steps of 1 */ 
+  @a[iodir] = lquantize(blkno,0,10,1)
+}
+
+tick-10s
+{
+  printf("%Y\n",walltimestamp);
+  /* Display the results of the aggregation */
+  printa("%s\n%@d\n",@a);
+  /* To reset the aggregation every tick, uncomment the following line */
+  /* clear(@a); */
+}
+EOF</pre><p>
+        You embed the D program in a shell script so that you can set up
+        the parameters that are needed, which are the major and minor
+        numbers of the underlying device and the total size of the file
+        system in file system blocks. You then access these parameters
+        directly in the D code.
+      </p>
+                     <div class="infoboxnote">
+                        <p class="notep1">Note:</p>
+                        
+                        <p>
+          An alternate way of passing values into the D program is to
+          use C preprocessor directives, for example:
+        </p>
+                        <pre class="oac_no_warn" dir="ltr">dtrace -C -D MAJ=$MAJOR -D MIN=$MINOR -D FSZ=$FSSIZE -qs /dev/stdin &lt;&lt; EOF</pre>
+                        <p>
+          You can then refer to the variables in the D program by their
+          macro names instead of their shell names:
+        </p>
+                        <pre class="oac_no_warn" dir="ltr">/args[1]-&gt;dev_major == MAJ &amp;&amp; args[1]-&gt;dev_minor == MIN/
+
+blkno = (args[0]-&gt;b_blkno)*10/FSZ;</pre>
+                        </div>
+                     <p>
+        The following example shows output from running the
+        <kbd class="userinput">fsact</kbd> command after making the script
+        executable, then running <kbd class="userinput">cp -R</kbd> on a directory
+        and <kbd class="userinput">rm -rf</kbd> on the copied directory:
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">chmod +x fsact</kbd>
+# <kbd class="userinput">./fsact</kbd>
+2018 Feb 16 16:59:46
+READ
+
+            value  ------------- Distribution ------------- count
+              &lt; 0 | 0
+                0 |@@@@@@@ 8
+                1 |@@@@@@@@@@@@@@@@@@@@@@@@@@@ 32
+                2 | 0
+                3 | 0
+                4 | 0
+                5 | 0
+                6 | 0
+                7 | 0
+                8 | 0
+                9 | 0
+            &gt;= 10 |@@@@@@@ 8
+
+WRITE
+
+            value  ------------- Distribution ------------- count
+                9 | 0
+            &gt;= 10 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 42                                       0        
+
+<kbd class="userinput">^C</kbd></pre></div>
+               </div>
+            </div>
+            <div class="sect2"><a id="ol_specexmp_dtrace" name="ol_specexmp_dtrace"></a><h3 id="OLDTT-ol_specexmp_dtrace" class="sect3">Displaying System Call Errors</h3>
+               <div>
+                  <p>
+      The following information pertains to using the D program
+      <kbd class="userinput">errno.d</kbd> to display system call errors.
+    
+                  </p>
+               </div>
+               <div class="sect3"><a id="ol-syscallerror_example" name="ol-syscallerror_example"></a><h4 id="OLDTT-ol-syscallerror_example" class="sect4">Example: Displaying System Call Errors (<code class="codeph">errno.d</code>)
+                  </h4>
+                  <div>
+                     <p>
+        The following is an example of the D program,
+        <code class="codeph">errno.d</code>. In this example, the program
+        displays the value of <code class="codeph">errno</code> and the file name
+        if an error occurs when using the <code class="codeph">open()</code>
+        system call to open a file.
+      
+                     </p><pre class="oac_no_warn" dir="ltr">#!/usr/sbin/dtrace -qs
+
+/* errno.d -- Display errno and the file name for failed open() calls */
+
+syscall::open:entry
+{
+  self-&gt;filename = copyinstr(arg0);
+}
+
+syscall::open:return
+/arg0 &lt; 0/
+{
+  printf("errno = %-2d   file = %s\n", errno, self-&gt;filename);
+}</pre><p>
+        If an error occurs in the <code class="codeph">open()</code> system call,
+        the <code class="codeph">return</code> probe sets the
+        <code class="codeph">arg0</code> argument to <code class="codeph">-1</code> and
+        the value of the built-in <code class="codeph">errno</code> variable
+        indicates the nature of the error. A predicate is used to test
+        the value of <code class="codeph">arg0</code>. Alternatively, you could
+        test whether the value of <code class="codeph">errno</code> is greater
+        than zero.
+      
+                     </p>
+                     <p>
+        When you have saved this script to a file and made the file
+        executable, you can then run it to display information about any
+        failures of the <code class="codeph">open()</code> system call that occur
+        on the system. After you have started the script, in a separate
+        terminal window, you can run commands that result in an error,
+        such as running the <kbd class="userinput">ls</kbd> command to list a file
+        that does not exist. Or, as in the following example, from
+        another terminal the <kbd class="userinput">cat</kbd> command has been
+        issued on a directory, which results in an error:
+      
+                     </p><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">./errno.d</kbd>
+
+errno = 2    file = /usr/share/locale/en_US.UTF-8/LC_MESSAGES/libc.mo
+errno = 2    file = /usr/share/locale/en_US.utf8/LC_MESSAGES/libc.mo
+errno = 2    file = /usr/share/locale/en_US/LC_MESSAGES/libc.mo
+errno = 2    file = /usr/share/locale/en.UTF-8/LC_MESSAGES/libc.mo
+errno = 2    file = /usr/share/locale/en.utf8/LC_MESSAGES/libc.mo
+errno = 2    file = /usr/share/locale/en/LC_MESSAGES/libc.mo
+<kbd class="userinput">^C</kbd></pre></div>
+               </div>
+               <div class="sect3"><a id="ol_syscallsmore_exercise" name="ol_syscallsmore_exercise"></a><h4 id="OLDTT-ol_syscallsmore_exercise" class="sect4">Exercise: Displaying More Information About System Call Errors</h4>
+                  <div>
+                     <p><a id="d2922e3230" class="indexterm-anchor"></a>
+
+        Adapt <code class="codeph">errno.d</code> to display the name of the
+        error instead of its number for any failed system call.
+      
+                     </p>
+                     <ul style="list-style-type: disc;">
+                        <li>
+                           
+                           <p>
+            The numeric values of errors such as
+            <code class="codeph">EACCES</code> and <code class="codeph">EEXIST</code> are
+            defined in
+            <code class="codeph">/usr/include/asm-generic/errno-base.h</code> and
+            <code class="codeph">/usr/include/asm-generic/errno.h</code>. DTrace
+            defines inline names (which are effectively constants) for
+            the numeric error values in
+            <code class="codeph">/usr/lib64/dtrace/</code>
+                              <span class="variable" translate="no">kernel-version</span>
+                              <code class="codeph">/errno.d</code>.
+            Use an associative array named <code class="codeph">error[]</code> to
+            store the mapping between the inline names and the error
+            names that are defined in
+            <code class="codeph">/usr/include/asm-generic/errno-base.h</code>.
+          
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+            Use <code class="codeph">printf()</code> to display the user ID, the
+            process ID, the program name, the error name, and the name
+            of the system call.
+          
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+            Use the <code class="codeph">BEGIN</code> probe to print column
+            headings.
+          
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>
+            Use the value of <code class="codeph">errno</code> rather than
+            <code class="codeph">arg0</code> to test whether an error from the
+            range of mapped names has occurred in a system call.
+          
+                           </p>
+                           
+                        </li>
+                     </ul>
+                     <p>
+        (Estimated completion time: 30 minutes)
+      </p>
+                  </div>
+               </div>
+               <div class="sect3"><a id="ol_syscallmore_solution" name="ol_syscallmore_solution"></a><h4 id="OLDTT-ol_syscallmore_solution" class="sect4">Solution to Exercise: Displaying More Information About System Call
+        Errors
+
+        <span></span>
+                     
+                  </h4>
+                  <div>
+                     <p>
+        The following is an example that shows a modified version of
+        <code class="codeph">errno.d</code>, which displays error names.
+      
+                     </p>
+                  </div>
+                  <div class="sect4"><a id="ol_modvererrnod_example" name="ol_modvererrnod_example"></a><h5 id="OLDTT-ol_modvererrnod_example" class="sect5">Example: Modified Version of errno.d Displaying Error Names
+          (displayerrno.d)
+
+          <span></span>
+                        
+                     </h5>
+                     <div><pre class="oac_no_warn" dir="ltr">#!/usr/sbin/dtrace -qs
+
+/* displayerrno.d -- Modified version of errno.d that displays error names */
+
+BEGIN
+{
+  printf("%-4s %-6s %-10s %-10s %s\n", "UID", "PID", "Prog", "Error", "Func");
+
+  /* Assign error names to the associative array error[] */
+  error[EPERM]   = "EPERM";    /* Operation not permitted */
+  error[ENOENT]  = "ENOENT";   /* No such file or directory */
+  error[ESRCH]   = "ESRCH";    /* No such process */
+  error[EINTR]   = "EINTR";    /* Interrupted system call */
+  error[EIO]     = "EIO";      /* I/O error */
+  error[ENXIO]   = "ENXIO";    /* No such device or address */
+  error[E2BIG]   = "E2BIG";    /* Argument list too long */
+  error[ENOEXEC] = "ENOEXEC";  /* Exec format error */
+  error[EBADF]   = "EBADF";    /* Bad file number */
+  error[ECHILD]  = "ECHILD";   /* No child processes */
+  error[EAGAIN]  = "EAGAIN";   /* Try again or operation would block */
+  error[ENOMEM]  = "ENOMEM";   /* Out of memory */
+  error[EACCES]  = "EACCES";   /* Permission denied */
+  error[EFAULT]  = "EFAULT";   /* Bad address */
+  error[ENOTBLK] = "ENOTBLK";  /* Block device required */
+  error[EBUSY]   = "EBUSY";    /* Device or resource busy */
+  error[EEXIST]  = "EEXIST";   /* File exists */
+  error[EXDEV]   = "EXDEV";    /* Cross-device link */
+  error[ENODEV]  = "ENODEV";   /* No such device */
+  error[ENOTDIR] = "ENOTDIR";  /* Not a directory */
+  error[EISDIR]  = "EISDIR";   /* Is a directory */
+  error[EINVAL]  = "EINVAL";   /* Invalid argument */
+  error[ENFILE]  = "ENFILE";   /* File table overflow */
+  error[EMFILE]  = "EMFILE";   /* Too many open files */
+  error[ENOTTY]  = "ENOTTY";   /* Not a typewriter */
+  error[ETXTBSY] = "ETXTBSY";  /* Text file busy */
+  error[EFBIG]   = "EFBIG";    /* File too large */
+  error[ENOSPC]  = "ENOSPC";   /* No space left on device */
+  error[ESPIPE]  = "ESPIPE";   /* Illegal seek */
+  error[EROFS]   = "EROFS";    /* Read-only file system */
+  error[EMLINK]  = "EMLINK";   /* Too many links */
+  error[EPIPE]   = "EPIPE";    /* Broken pipe */
+  error[EDOM]    = "EDOM";     /* Math argument out of domain of func */
+  error[ERANGE]  = "ERANGE";   /* Math result not representable */
+}
+
+/* Specify any syscall return probe and test that the value of errno is in range */
+
+syscall:::return
+/errno &gt; 0 &amp;&amp; errno &lt;= ERANGE/
+{
+  printf("%-4d %-6d %-10s %-10s %s()\n", uid, pid, execname, error[errno], probefunc);
+}</pre><pre class="oac_no_warn" dir="ltr"># <kbd class="userinput">chmod +x displayerrno.d</kbd>
+# <kbd class="userinput">./displayerrno.d</kbd>
+UID  PID    Prog       Error      Func
+500  3575   test       EACCES     open()
+500  3575   test       EINTR      clock_gettime()
+<kbd class="userinput">^C</kbd></pre><p>
+          You could modify this program so that it displays verbose
+          information about the nature of the error, in addition to the
+          name of the error.
+        </p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>
