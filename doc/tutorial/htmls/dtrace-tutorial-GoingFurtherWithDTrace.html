@@ -1,0 +1,125 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Going Further With DTrace">
+      <meta name="DC.Publisher" content="January2025">
+      <meta name="category" content="operating-systems">
+      <meta name="suite" content="linux">
+      <meta name="productGroup" content="not-applicable">
+      <meta name="product" content="oracle-linux">
+      <meta name="release" content="cross-release">
+      <meta name="docbuilderDocument" content="mydocs-linux_oracle-linux_dtrace-tutorial">
+      <meta name="docbuilderId" content="22354">
+      <meta name="pubAlias" content="dtrace-tutorial">
+      <meta name="jarvis-url" content="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-tutorial/">
+      <meta name="notice" content="notice.txt">
+      <meta name="ditaval" content="dttutor.ditaval">
+      <meta name="revision" content="$Rev$">
+      <meta name="rev-date" content="$Date$">
+      <meta name="title" content="Oracle Linux: DTrace Tutorial">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="ol_gofur_dtrace">
+      <meta name="DC.Language" content="en-us">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Going Further With DTrace</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="DTrace Tutorial">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="DTrace Tutorial">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="OL-DTRACE-TUTORIAL.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2025-01-13T07:08:07-08:00">
+      
+      <meta name="dcterms.dateCopyrighted" content="2013, 2025">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E50705-16">
+      
+      <meta name="dcterms.product" content="en/operating-systems/oracle-linux">
+      
+      <link rel="prev" href="dtrace-tutorial-TracingUserSpaceApplications.html" title="Previous" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"linux","element_name":"Oracle Linux","display_in_url":false},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-linux","element_name":"Oracle Linux","display_in_url":true},"release":{"short_name":"cross-release","element_name":"Cross Release","display_in_url":false}}}</script>
+      
+    <meta name="dcterms.title" content="Oracle Linux: DTrace Tutorial">
+    <meta name="dcterms.isVersionOf" content="DTRACE-TUTORIAL">
+    <meta name="dcterms.release" content="Cross Release">
+  <script type="application/ld+json"> {"@context":"https://schema.org","@type":"WebPage","name":"Going Further With DTrace","datePublished":"2019-08-16 CST","dateModified":"2025-01-13 CST"} </script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="dtrace-tutorial-TracingUserSpaceApplications.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="#" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article>
+         <header>
+            <ol class="breadcrumb" vocab="http://schema.org/" typeof="BreadcrumbList">
+               <li property="itemListElement" typeof="ListItem"><a href="index.html" property="item" typeof="WebPage"><span property="name">DTrace Tutorial</span></a></li>
+               <li class="active" property="itemListElement" typeof="ListItem">Going Further With DTrace</li>
+            </ol>
+            <a id="ol_gofur_dtrace" name="ol_gofur_dtrace"></a>
+            
+            <h2 id="OLDTT-ol_gofur_dtrace" class="sect2"><span class="enumeration_chapter">4 </span>Going Further With DTrace
+            </h2>
+         </header>
+         <div class="ind">
+            <div>
+               <div>
+                  
+                  <div class="infoboxnotewarn">
+                     <p class="notep1">WARNING:</p>
+                     
+                     <p>Oracle Linux 7 is now in Extended Support. See <a href="https://www.oracle.com/a/ocom/docs/linux/oracle-linux-extended-support-ds.pdf" target="_blank">Oracle Linux Extended Support</a> and <a href="https://www.oracle.com/us/support/library/enterprise-linux-support-policies-069172.pdf" target="_blank">Oracle Open Source Support Policies</a> for more information.
+                     </p>
+                     
+                     <p>
+Migrate applications and data to Oracle Linux 8 or Oracle Linux 9 as soon as possible.
+</p>
+                     
+                     <p>For more information about DTrace, see <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-relnotes/" target="_blank"><span class="italic">Oracle Linux: DTrace Release Notes</span></a> and <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-v2-guide/" target="_blank">Oracle Linux: Using DTrace for System Tracing</a>.
+                     </p>
+                     
+                  </div>
+                  
+               </div>
+               <p>
+      For more information about using DTrace on Oracle Linux, see
+      <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-guide/" target="_blank">Oracle Linux: DTrace Reference Guide</a> .
+    
+               </p>
+               <p>
+      The latest DTrace development work and source code for Linux is
+      available at
+      <a href="https://github.com/oracle/dtrace-utils/" target="_blank">https://github.com/oracle/dtrace-utils/</a>.
+    
+               </p>
+               <p>
+      You may also reference the information at
+      <a href="https://www.oracle.com/linux/downloads/linux-dtrace.html" target="_blank">https://www.oracle.com/linux/downloads/linux-dtrace.html</a>.
+    
+               </p>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>
