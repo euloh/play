@@ -1,0 +1,254 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html xml:lang="en-us" lang="en-us">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <meta name="DC.Type" content="topic">
+      <meta name="DC.Title" content="Preface">
+      <meta name="DC.Publisher" content="January2025">
+      <meta name="category" content="operating-systems">
+      <meta name="suite" content="linux">
+      <meta name="productGroup" content="not-applicable">
+      <meta name="product" content="oracle-linux">
+      <meta name="release" content="cross-release">
+      <meta name="docbuilderDocument" content="mydocs-linux_oracle-linux_dtrace-tutorial">
+      <meta name="docbuilderId" content="22354">
+      <meta name="pubAlias" content="dtrace-tutorial">
+      <meta name="jarvis-url" content="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-tutorial/">
+      <meta name="notice" content="notice.txt">
+      <meta name="ditaval" content="dttutor.ditaval">
+      <meta name="revision" content="$Rev$">
+      <meta name="rev-date" content="$Date$">
+      <meta name="title" content="Oracle Linux: DTrace Tutorial">
+      <meta name="DC.Format" content="XHTML">
+      <meta name="DC.Identifier" content="pref">
+      <meta name="DC.Language" content="en-us">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Preface</title>
+      <meta property="og:site_name" content="Oracle Help Center">
+      <meta property="og:title" content="DTrace Tutorial">
+      <meta property="og:description" content>
+      <link rel="stylesheet" href="/sp_common/book-template/ohc-book-template/css/book.css">
+      <link rel="shortcut icon" href="/sp_common/book-template/ohc-common/img/favicon.ico">
+      <meta name="application-name" content="DTrace Tutorial">
+      <meta name="generator" content="DITA Open Toolkit version 1.8.5 (Mode = doc)">
+      <meta name="plugin" content="SP_docbuilder HTML plugin release 18.2.2">
+      <link rel="alternate" href="OL-DTRACE-TUTORIAL.pdf" title="PDF File" type="application/pdf">
+      <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+      <meta name="dcterms.created" content="2025-01-13T07:08:07-08:00">
+      
+      <meta name="dcterms.dateCopyrighted" content="2013, 2025">
+      <meta name="dcterms.category" content="operating-systems">
+      <meta name="dcterms.identifier" content="E50705-16">
+      
+      <meta name="dcterms.product" content="en/operating-systems/oracle-linux">
+      
+      <link rel="prev" href="index.html" title="Previous" type="text/html">
+      <link rel="next" href="dtrace-tutorial-IntroducingDTrace.html" title="Next" type="text/html">
+      <script>
+        document.write('<style type="text/css">');
+        document.write('body > .noscript, body > .noscript ~ * { visibility: hidden; }');
+        document.write('</style>');
+     </script>
+      <script data-main="/sp_common/book-template/ohc-book-template/js/book-config" src="/sp_common/book-template/requirejs/require.js"></script>
+      <script>
+            if (window.require === undefined) {
+                document.write('<script data-main="sp_common/book-template/ohc-book-template/js/book-config" src="sp_common/book-template/requirejs/require.js"><\/script>');
+                document.write('<link href="sp_common/book-template/ohc-book-template/css/book.css" rel="stylesheet"/>');
+            }
+        </script>
+      <script type="application/json" id="ssot-metadata">{"primary":{"category":{"short_name":"operating-systems","element_name":"Operating Systems","display_in_url":true},"suite":{"short_name":"linux","element_name":"Oracle Linux","display_in_url":false},"product_group":{"short_name":"not-applicable","element_name":"Not Applicable","display_in_url":false},"product":{"short_name":"oracle-linux","element_name":"Oracle Linux","display_in_url":true},"release":{"short_name":"cross-release","element_name":"Cross Release","display_in_url":false}}}</script>
+      
+    <meta name="dcterms.title" content="Oracle Linux: DTrace Tutorial">
+    <meta name="dcterms.isVersionOf" content="DTRACE-TUTORIAL">
+    <meta name="dcterms.release" content="Cross Release">
+  <script type="application/ld+json"> {"@context":"https://schema.org","@type":"WebPage","name":"Preface","datePublished":"2019-08-16 CST","dateModified":"2025-01-13 CST"} </script>
+    <script>window.ohcglobal || document.write('<script src="/en/dcommon/js/global.js">\x3C/script>')</script></head>
+   <body>
+      <div class="noscript alert alert-danger text-center" role="alert">
+         <a href="index.html" class="pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Previous</a>
+         <a href="dtrace-tutorial-IntroducingDTrace.html" class="pull-right">Next<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+         <span class="fa fa-exclamation-triangle" aria-hidden="true"></span> JavaScript must be enabled to correctly display this content
+        
+      </div>
+      <article>
+         <header>
+            <ol class="breadcrumb" vocab="http://schema.org/" typeof="BreadcrumbList">
+               <li property="itemListElement" typeof="ListItem"><a href="index.html" property="item" typeof="WebPage"><span property="name">DTrace Tutorial</span></a></li>
+               <li class="active" property="itemListElement" typeof="ListItem">Preface</li>
+            </ol>
+            <a id="pref" name="pref"></a>
+            
+            <h2 id="OLDTT-pref" class="sect2">Preface</h2>
+         </header>
+         <div class="ind">
+            <div>
+               <div>
+                  
+                  <div class="infoboxnotewarn">
+                     <p class="notep1">WARNING:</p>
+                     
+                     <p>Oracle Linux 7 is now in Extended Support. See <a href="https://www.oracle.com/a/ocom/docs/linux/oracle-linux-extended-support-ds.pdf" target="_blank">Oracle Linux Extended Support</a> and <a href="https://www.oracle.com/us/support/library/enterprise-linux-support-policies-069172.pdf" target="_blank">Oracle Open Source Support Policies</a> for more information.
+                     </p>
+                     
+                     <p>
+Migrate applications and data to Oracle Linux 8 or Oracle Linux 9 as soon as possible.
+</p>
+                     
+                     <p>For more information about DTrace, see <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-relnotes/" target="_blank"><span class="italic">Oracle Linux: DTrace Release Notes</span></a> and <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-v2-guide/" target="_blank">Oracle Linux: Using DTrace for System Tracing</a>.
+                     </p>
+                     
+                  </div>
+                  
+               </div>
+               <p><a href="https://docs.oracle.com/en/operating-systems/oracle-linux/dtrace-tutorial/" target="_blank">Oracle Linux: DTrace Tutorial</a> provides examples of how you can use the
+      features of the Dynamic Tracing (DTrace) tool to examine the behavior of the operating system
+      and user-space programs. 
+               </p>
+            </div>
+            <div class="sect2"><a id="documentation-license" name="documentation-license"></a><h3 id="OLDTT-documentation-license" class="sect3">Documentation License</h3>
+               <div>
+                  <p>The content in this document is licensed under the <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution&#x2013;Share Alike 4.0</a> (CC-BY-SA) license. In accordance with
+      CC-BY-SA, if you distribute this content or an adaptation of it, you must provide attribution
+      to Oracle and retain the original copyright notices.
+                  </p>
+               </div>
+            </div>
+            <div class="sect2"><a id="conventions" name="conventions"></a><h3 id="OLDTT-conventions" class="sect3">Conventions</h3>
+               <div>
+                  <div class="section" id="conventions__conventions-body">
+                     
+                     <p>
+        The following text conventions are used in this document:
+      </p>
+                     
+                     <div class="tblformal">
+                        <table cellpadding="4" cellspacing="0" class="Formal" title summary="&#xA;          This table summarizes conventions used in this&#xA;          document.&#xA;        " frame="hsides" border="1" rules="rows">
+                           <thead>
+                              <tr align="left" valign="top">
+                                 <th class="col" align="left" valign="bottom" id="d714e150">
+                
+                  Convention
+                
+              </th>
+                                 <th class="col" align="left" valign="bottom" id="d714e155">
+                
+                  Meaning
+                
+              </th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr align="left" valign="top">
+                                 <td class="row" align="left" valign="top" id="d714e162" headers="d714e150 ">
+                                    
+                                    <p>
+                                       <span class="bold">boldface</span>
+                                       
+                                    </p>
+                                    
+                                 </td>
+                                 <td align="left" valign="top" headers="d714e162 d714e155 ">
+                                    
+                                    <p>
+                  Boldface type indicates graphical user interface
+                  elements associated with an action, or terms defined
+                  in text or the glossary.
+                </p>
+                                    
+                                 </td>
+                              </tr>
+                              <tr align="left" valign="top">
+                                 <td class="row" align="left" valign="top" id="d714e176" headers="d714e150 ">
+                                    
+                                    <p>
+                                       <span class="italic">italic</span>
+                                       
+                                    </p>
+                                    
+                                 </td>
+                                 <td align="left" valign="top" headers="d714e176 d714e155 ">
+                                    
+                                    <p>
+                  Italic type indicates book titles, emphasis, or
+                  placeholder variables for which you supply particular
+                  values.
+                </p>
+                                    
+                                 </td>
+                              </tr>
+                              <tr align="left" valign="top">
+                                 <td class="row" align="left" valign="top" id="d714e190" headers="d714e150 ">
+                                    
+                                    <p>
+                                       <code class="codeph">monospace</code>
+                                       
+                                    </p>
+                                    
+                                 </td>
+                                 <td align="left" valign="top" headers="d714e190 d714e155 ">
+                                    
+                                    <p>
+                  Monospace type indicates commands within a paragraph,
+                  URLs, code in examples, text that appears on the
+                  screen, or text that you enter.
+                </p>
+                                    
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                     <!-- class="inftblhruleinformal" -->
+                     
+                  </div>
+                  <!-- class="section" -->
+               </div>
+            </div>
+            <div class="sect2"><a id="documentationAccessibility" name="documentationAccessibility"></a><h3 id="OLDTT-documentationAccessibility" class="sect3">Documentation Accessibility</h3>
+               <div>
+                  <div class="section" id="documentationAccessibility__doc-accessibility-body">
+                     
+                     <p> For information about Oracle's commitment to accessibility, visit the Oracle Accessibility
+        Program website at <a href="https://www.oracle.com/corporate/accessibility/" target="_blank">https://www.oracle.com/corporate/accessibility/</a>. 
+                     </p>
+                     
+                     
+                  </div>
+                  <!-- class="section" -->
+               </div>
+            </div>
+            <div class="sect2"><a id="accessToOracleSupportForAccessibility" name="accessToOracleSupportForAccessibility"></a><h3 id="OLDTT-accessToOracleSupportForAccessibility" class="sect3">Access to Oracle Support for Accessibility</h3>
+               <div>
+                  <div class="section" id="accessToOracleSupportForAccessibility__accessibility-body">
+                     
+                     <p> Oracle customers that have purchased support have access to electronic support through My
+        Oracle Support. For information, visit <a href="https://www.oracle.com/corporate/accessibility/learning-support.html#support-tab" target="_blank">https://www.oracle.com/corporate/accessibility/learning-support.html#support-tab</a>. 
+                     </p>
+                     
+                  </div>
+                  <!-- class="section" -->
+               </div>
+            </div>
+            <div class="sect2"><a id="diversity" name="diversity"></a><h3 id="OLDTT-diversity" class="sect3">Diversity and Inclusion</h3>
+               <div>
+                  <div class="section" id="diversity__diversity-body">
+                     
+                     <p>Oracle is fully committed to diversity and inclusion. Oracle respects and values having a
+        diverse workforce that increases thought leadership and innovation. As part of our
+        initiative to build a more inclusive culture that positively impacts our employees,
+        customers, and partners, we are working to remove insensitive terms from our products and
+        documentation. We are also mindful of the necessity to maintain compatibility with our
+        customers' existing technologies and the need to ensure continuity of service as Oracle's
+        offerings and industry standards evolve. Because of these technical constraints, our effort
+        to remove insensitive terms is ongoing and will take time and external cooperation.</p>
+                     
+                  </div>
+                  <!-- class="section" -->
+               </div>
+            </div>
+         </div>
+      </article>
+   </body>
+</html>
